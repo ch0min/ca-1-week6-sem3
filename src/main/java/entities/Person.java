@@ -12,7 +12,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
-
+// hello
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "address_id", nullable = false, referencedColumnName = "id")
     private Address address;
