@@ -1,0 +1,159 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package "dtos" {
+PersonDTO - HobbyDTO
+
+class HobbyDTO {
+-name
+-description
+
++getAllHobbies()
++getEntity()
+}
+
+class PersonDTO {
+- long id
+-email
+-firstName
+-lastName
+-String address
+-String phone
+
++getAllPersons()
++getEntity()
+}
+
+}
+
+
+package "facades" {
+
+class PersonFacade {
+-PersonFacade instance
+-EntityManagerFactory emf
+
++getPersonFacade()
++getEntityManger()
++getAllPersons()
++getPersonByPhone()
++getPersonByHobby()
++getPersonByCity()
++getPeopleWithGivenHobby()???????
++getAllZips()
++createPerson()
++updatePerson()
++deletePerson()
+
++deleteAddress()
+
+}
+
+
+
+class HobbyFacade {
+??? REDUNDANS
+
+}
+
+}
+
+
+package "rest" {
+
+class PersonResource() {
+-EntityManagerFactory EMF
+-PersonFacade FACADE
+-Gson GSON
+
++getPersonFacade()
++getEntityManger()
++getAllPersons()
++getPersonByPhone()
++getPersonByHobby()
++getPersonByCity()
++getPeopleWithGivenHobby()???????
++getAllZips()
++createPerson()
++updatePerson()
++deletePerson()
+
++deleteAddress()
+
+}
+
+}
+
+package "entities" {
+Hobby -- Person
+Person -- Phone
+Person - Address
+Address - CityInfo
+
+class Hobby {
+-name
+-description
+
+}
+
+class Person {
+-id
+-email
+-firstName
+-lastName
+}
+
+class Phone {
+-number
+-description
+}
+
+class Address {
+-street
+-additionalInfo
+}
+
+class CityInfo {
+-zipCode
+-city
+}
+
+}
+
+package "test" {
+
+package "facadesTest" {
+class PersonFacadeTest {
+-EntityManagerFactory emf
+-PersonFacade facade
+-Person p1, p2
+
+}
+
+}
+
+package "restTest" {
+
+class PersonResourceTest {
+-SERVER_PORT
+-SERVER_URL
+-Person p1, p2
+-Gson GSON
+
+-URI BASE_URI
+-HttpServer httpServer
+-EntityManagerFactory emf
+
+}
+
+}
+}
+
+facades --[hidden]> rest
+entities ---[hidden]> dtos
+
+
+
+
+
+@enduml
