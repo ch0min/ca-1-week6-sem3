@@ -12,10 +12,6 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
-// hello
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "address_id", nullable = false, referencedColumnName = "id")
-    private Address address;
 
     @Size(max = 255)
     @Column(name = "email")
@@ -29,25 +25,29 @@ public class Person {
     @Column(name = "last_name", length = 45)
     private String lastName;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "address_id", nullable = false, referencedColumnName = "id")
+    private Address address;
+
+    @OneToMany(mappedBy = "person")
+    private Set<Phone> phones = new LinkedHashSet<>();
+
     @ManyToMany
     @JoinTable(name = "PERSON_HOBBY",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "hobby_id"))
     private Set<Hobby> hobbies = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "person")
-    private Set<Phone> phones = new LinkedHashSet<>();
-
     public Person() {
     }
 
-    public Person(Address address, String email, String firstName, String lastName, Set<Hobby> hobbies, Set<Phone> phones) {
-        this.address = address;
+    public Person(String email, String firstName, String lastName, Address address, Set<Phone> phones, Set<Hobby> hobbies) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.hobbies = hobbies;
+        this.address = address;
         this.phones = phones;
+        this.hobbies = hobbies;
     }
 
     public Integer getId() {

@@ -34,17 +34,17 @@ public class Hobby {
     @JoinTable(name = "PERSON_HOBBY",
             joinColumns = @JoinColumn(name = "hobby_id"),
             inverseJoinColumns = @JoinColumn(name = "person_id"))
-    private Set<Person> people = new LinkedHashSet<>();
+    private Set<Person> personSet = new LinkedHashSet<>();
 
     public Hobby() {
     }
 
-    public Hobby(String name, String wikiLink, String category, String type, Set<Person> people) {
+    public Hobby(String name, String wikiLink, String category, String type, Set<Person> personSet) {
         this.name = name;
         this.wikiLink = wikiLink;
         this.category = category;
         this.type = type;
-        this.people = people;
+        this.personSet = personSet;
     }
 
     public Integer getId() {
@@ -87,12 +87,12 @@ public class Hobby {
         this.type = type;
     }
 
-    public Set<Person> getPeople() {
-        return people;
+    public Set<Person> getPersonSet() {
+        return personSet;
     }
 
-    public void setPeople(Set<Person> people) {
-        this.people = people;
+    public void setPersonSet(Set<Person> people) {
+        this.personSet = people;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class Hobby {
                 ", wikiLink='" + wikiLink + '\'' +
                 ", category='" + category + '\'' +
                 ", type='" + type + '\'' +
-                ", people=" + people +
+                ", people=" + personSet +
                 '}';
     }
 
