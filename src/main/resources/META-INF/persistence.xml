@@ -5,6 +5,10 @@
 
     <!-- DO NOT RENAME THE PERSISTENCE UNIT -->
     <persistence-unit name="pu" transaction-type="RESOURCE_LOCAL">
+        <class>entities.PersonId</class>
+        <class>entities.Person</class>
+        <class>entities.PersonId</class>
+        <class>entities.Person</class>
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 <!--        <class>entities.Person</class>-->
 <!--        <class>entities.Hobby</class>-->
