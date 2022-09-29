@@ -22,27 +22,27 @@
         <!-- IMPORTANT-1: The database should exist on your droplet -->
         <db.name>startcode</db.name>
     </properties>
-    
+
     <dependencies>
-        
+
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.jpa</artifactId>
             <version>2.7.7</version>
         </dependency>
-        
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.26</version>
         </dependency>
-      
+
         <dependency>
             <groupId>org.glassfish.jersey.bundles</groupId>
             <artifactId>jaxrs-ri</artifactId>
             <version>2.32</version>
         </dependency>
-        
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -54,7 +54,7 @@
             <artifactId>gson</artifactId>
             <version>2.8.6</version>
         </dependency>
-        
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -80,7 +80,7 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- Grizly Server used to test REST endpoints -->
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
@@ -88,7 +88,7 @@
             <version>2.32</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -106,24 +106,24 @@
     </dependencies>
 
     <build>
-       
+
         <plugins>
             <!-- Plugin used to deploy to remote server -->
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
-                <configuration>          
+                <configuration>
                     <server>TomcatServer</server>
                     <url>${remote.server}</url>
                     <!--suppress UnresolvedMavenProperty -->
                     <username>${remote.user}</username>
                     <!--suppress UnresolvedMavenProperty -->
                     <password>${remote.password}</password>
-                    <update>true</update>    
-                </configuration>  
-            </plugin>          
-            
+                    <update>true</update>
+                </configuration>
+            </plugin>
+
             <!--This is used to enable @BeforeAll etc used in jUnit 5 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -142,7 +142,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
-           
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
