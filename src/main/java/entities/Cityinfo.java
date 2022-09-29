@@ -16,7 +16,7 @@ public class Cityinfo {
     @Column(name = "city", length = 45)
     private String city;
 
-    @OneToMany(mappedBy = "cityinfo")
+    @OneToMany(mappedBy = "zip")
     private Set<Address> addresses = new LinkedHashSet<>();
 
     public Integer getId() {
