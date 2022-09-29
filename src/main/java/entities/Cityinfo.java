@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,6 +19,15 @@ public class Cityinfo {
 
     @OneToMany(mappedBy = "zip")
     private Set<Address> addresses = new LinkedHashSet<>();
+
+    public Cityinfo() {
+    }
+
+    public Cityinfo(Integer id, String city, Set<Address> addresses) {
+        this.id = id;
+        this.city = city;
+        this.addresses = addresses;
+    }
 
     public Integer getId() {
         return id;
@@ -43,4 +53,25 @@ public class Cityinfo {
         this.addresses = addresses;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cityinfo)) return false;
+        Cityinfo cityinfo = (Cityinfo) o;
+        return getId().equals(cityinfo.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Cityinfo{" +
+                "id=" + id +
+                ", city='" + city + '\'' +
+                ", addresses=" + addresses +
+                '}';
+    }
 }

@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -10,7 +11,7 @@ import java.util.Set;
 public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "zip", nullable = false)
@@ -23,11 +24,20 @@ public class Address {
     @OneToMany(mappedBy = "address")
     private Set<Person> people = new LinkedHashSet<>();
 
-    public long getId() {
+    public Address() {
+    }
+
+    public Address(Cityinfo zip, String street, Set<Person> people) {
+        this.zip = zip;
+        this.street = street;
+        this.people = people;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -55,4 +65,26 @@ public class Address {
         this.people = people;
     }
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", zip=" + zip +
+                ", street='" + street + '\'' +
+                ", people=" + people +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Address)) return false;
+        Address address = (Address) o;
+        return getId() == address.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -34,6 +35,17 @@ public class Hobby {
             joinColumns = @JoinColumn(name = "hobby_id"),
             inverseJoinColumns = @JoinColumn(name = "person_id"))
     private Set<Person> people = new LinkedHashSet<>();
+
+    public Hobby() {
+    }
+
+    public Hobby(String name, String wikiLink, String category, String type, Set<Person> people) {
+        this.name = name;
+        this.wikiLink = wikiLink;
+        this.category = category;
+        this.type = type;
+        this.people = people;
+    }
 
     public Integer getId() {
         return id;
@@ -83,4 +95,28 @@ public class Hobby {
         this.people = people;
     }
 
+    @Override
+    public String toString() {
+        return "Hobby{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", wikiLink='" + wikiLink + '\'' +
+                ", category='" + category + '\'' +
+                ", type='" + type + '\'' +
+                ", people=" + people +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Hobby)) return false;
+        Hobby hobby = (Hobby) o;
+        return getId().equals(hobby.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
