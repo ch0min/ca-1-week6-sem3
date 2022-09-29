@@ -1,7 +1,7 @@
 GET http://localhost:8080/devops_starter_war_exploded/api/xxx
 
 ###
-POST http://localhost:8080/devops_starter_war_exploded/api/xxx
+POST http://localhost:8080/ca1/api/xxx
 Content-Type: application/json
 #User-Agent: Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion
 
