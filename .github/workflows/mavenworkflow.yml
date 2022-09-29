@@ -1,8 +1,8 @@
 name: Github actions with maven build and deploy
-on: 
+on:
   push:
-    branches: 
-    - master
+    branches:
+    - main
 jobs:
   Do-the-travis-thing:
     runs-on: ubuntu-20.04 #or ubuntu-latest
@@ -13,12 +13,13 @@ jobs:
     #       DB_DATABASE: startcode_test
     #       DB_USER: dev
     #       DB_PASSWORD: ax2
+
     steps:
       - name: checkout
         uses: actions/checkout@v2
       - name: setup jdk 11
         uses: actions/setup-java@v2
-        with: 
+        with:
           java-version: '11'
           distribution: 'adopt' # openjdk see the setup java action: https://github.com/actions/setup-java
       # - name: Set up MySQL
