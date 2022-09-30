@@ -30,15 +30,15 @@ public class PersonFacade {
     }
 
 
-    public PersonDTO getPersonByPhone(String phone) {
+    public PersonDTO getPersonByPhone(int phone) {
         return null;
     }
 
-    public List<PersonDTO> getAllPersonsByHobby(int hobbyId) throws EntityNotFoundException {
+    public List<PersonDTO> getAllPersonsByHobby(String hobbyName) throws EntityNotFoundException {
         return null;
     }
 
-    public List<PersonDTO> getPeopleInCity() {
+    public List<PersonDTO> getPeopleInCity(int zip) {
         return null;
     }
 
