@@ -7,17 +7,18 @@ import java.util.Objects;
 @Entity
 @Table(name = "PHONE")
 public class Phone {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Integer id;
+    @Column(name = "phoneNumber")
+    private Integer phoneNumber;
+
+    @Size(max = 45)
+    @Column(name = "description", length = 45)
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "person_id", nullable = false, referencedColumnName = "id")
     private Person person;
 
-    @Size(max = 45)
-    @Column(name = "description", length = 45)
-    private String description;
 
     public Phone() {
     }
@@ -27,12 +28,12 @@ public class Phone {
         this.description = description;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPhoneNumber(Integer phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Person getPerson() {
@@ -54,9 +55,9 @@ public class Phone {
     @Override
     public String toString() {
         return "Phone{" +
-                "id=" + id +
-                ", person=" + person +
+                "phoneNumber=" + phoneNumber +
                 ", description='" + description + '\'' +
+                ", person=" + person +
                 '}';
     }
 
@@ -65,11 +66,11 @@ public class Phone {
         if (this == o) return true;
         if (!(o instanceof Phone)) return false;
         Phone phone = (Phone) o;
-        return getId() == phone.getId();
+        return getPhoneNumber().equals(phone.getPhoneNumber());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(getPhoneNumber());
     }
 }
