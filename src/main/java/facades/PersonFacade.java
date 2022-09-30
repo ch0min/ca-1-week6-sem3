@@ -1,21 +1,21 @@
-package datafacades;
+package facades;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-public class HobbyFacade {
+public class PersonFacade {
 
-    private static HobbyFacade instance;
+    private static PersonFacade instance;
     private static EntityManagerFactory emf;
 
     // Private Constructor to ensure Singleton
-    private HobbyFacade() {
+    private PersonFacade() {
     }
 
-    public static HobbyFacade getHobbyFacade(EntityManagerFactory _emf) {
+    public static PersonFacade getPersonFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new HobbyFacade();
+            instance = new PersonFacade();
         }
         return instance;
     }

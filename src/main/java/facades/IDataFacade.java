@@ -1,4 +1,4 @@
-package datafacades;
+package facades;
 
 import errorhandling.EntityNotFoundException;
 
