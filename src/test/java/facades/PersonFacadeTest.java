@@ -78,7 +78,7 @@ public class PersonFacadeTest {
             em.persist(p1);
             em.persist(p2);
             em.persist(p2);
-
+lol
 
 //            pdto1 = new PersonDTO(p1);
 //            pdto2 = new PersonDTO(p2);
