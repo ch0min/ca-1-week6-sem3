@@ -46,16 +46,13 @@ public class PersonFacadeTest {
 //            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
 //            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
 
-            ci1 = new Cityinfo(900, "København C");
-            ci2 = new Cityinfo(1000, "København K");
-
             ph1 = new Phone(29842712, "HOME");
             ph2 = new Phone(12345678, "WORK");
             phones.add(ph1);
             phones.add(ph2);
 
-            a1 = new Address("Noegaardsvej 30", ci1);
-            a2 = new Address("Lololol 10", ci2);
+            a1 = new Address("Noegaardsvej 30", 2800);
+            a2 = new Address("Lololol 10", 900);
 
             h1 = new Hobby("3D-udskrivning", "https://en.wikipedia.org/wiki/3D_printing", "Generel", "Indendørs");
             h2 = new Hobby("Akrobatik", "https://en.wikipedia.org/wiki/Acrobatics", "Generel", "Indendørs");

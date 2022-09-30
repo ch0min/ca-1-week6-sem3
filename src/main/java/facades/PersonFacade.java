@@ -1,7 +1,6 @@
 package facades;
 
 import dtos.PersonDTO;
-import entities.Person;
 import errorhandling.EntityNotFoundException;
 
 import javax.persistence.EntityManager;
@@ -29,6 +28,17 @@ public class PersonFacade {
         return emf.createEntityManager();
     }
 
+    public PersonDTO create(PersonDTO p) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(p.getEntity());
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return p;
+    }
 
     public PersonDTO getPersonByPhone(int phone) {
         return null;
@@ -54,5 +64,6 @@ public class PersonFacade {
     public PersonDTO deletePerson(int id) throws EntityNotFoundException {
         return null;
     }
+
 }
 

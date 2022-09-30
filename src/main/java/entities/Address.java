@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,9 +16,16 @@ public class Address {
     @Id
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "zip", nullable = false)
-    private Cityinfo zip;
+//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+//    @JoinColumn(name = "zip", nullable = false)
+//    private Cityinfo zip2;
+
+//    @ElementCollection
+//    @CollectionTable(name = "cityinfo", joinColumns = @JoinColumn(name = "zip"))
+//    @Column(name = "zip")
+//    private List<String> zip;
+    @Column(name = "zip")
+    private Integer zip;
 
     @Column(name = "street")
     private String street;
@@ -28,16 +36,25 @@ public class Address {
     public Address() {
     }
 
-    public Address(Cityinfo zip, String street, Set<Person> people) {
+    public Address(Integer zip, String street, Set<Person> people) {
         this.zip = zip;
         this.street = street;
         this.people = people;
     }
 
-    public Address(String street, Cityinfo zip) {
+    public Address(String street, Integer zip) {
         this.zip = zip;
         this.street = street;
     }
+
+
+//    public List<String> getCity() {
+//        return city;
+//    }
+
+//    public void setCity(List<String> city) {
+//        this.city = city;
+//    }
 
     public Integer getId() {
         return id;
@@ -47,11 +64,11 @@ public class Address {
         this.id = id;
     }
 
-    public Cityinfo getZip() {
+    public Integer getZip() {
         return zip;
     }
 
-    public void setZip(Cityinfo zip) {
+    public void setZip(Integer zip) {
         this.zip = zip;
     }
 

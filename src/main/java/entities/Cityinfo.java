@@ -6,8 +6,8 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name = "CITYINFO")
+//@Entity
+//@Table(name = "CITYINFO")
 public class Cityinfo {
     @Id
     @Column(name = "zip", nullable = false)

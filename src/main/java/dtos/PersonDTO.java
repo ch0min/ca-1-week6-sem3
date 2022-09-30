@@ -22,7 +22,7 @@ public class PersonDTO {
     private Set<Hobby> hobbies = new LinkedHashSet<>();
 
     public PersonDTO(Person p) {
-        if (p.getId() != 0)
+//        if (p.getId() != 0)
             this.id = p.getId();
         this.email = p.getEmail();
         this.firstName = p.getFirstName();
@@ -40,7 +40,7 @@ public class PersonDTO {
 
     public Person getEntity(){
         Person p = new Person(this.email, this.firstName, this.lastName, this.address, this.phones, this.hobbies);
-        if(id != 0)
+        //if(id != 0)
             p.setId(this.id);
         return p;
     }
