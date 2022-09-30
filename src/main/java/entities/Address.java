@@ -22,7 +22,7 @@ public class Address {
     @Column(name = "street", length = 45)
     private String street;
 
-    @OneToMany(mappedBy = "address")
+    @OneToMany(mappedBy = "address", cascade = CascadeType.PERSIST)
     private Set<Person> people = new LinkedHashSet<>();
 
     public Address() {

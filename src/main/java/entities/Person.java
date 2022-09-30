@@ -27,11 +27,11 @@ public class Person {
     @Column(name = "last_name", length = 45)
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id", nullable = false, referencedColumnName = "id")
     private Address address;
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
     private Set<Phone> phones = new LinkedHashSet<>();
 
     @ManyToMany

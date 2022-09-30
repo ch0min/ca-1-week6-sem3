@@ -17,7 +17,8 @@ public class Cityinfo {
     @Column(name = "city", length = 45)
     private String city;
 
-    @OneToMany(mappedBy = "zip")
+    @OneToMany(mappedBy = "zip", cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "zip", nullable = false)
     private Set<Address> addresses = new LinkedHashSet<>();
 
     public Cityinfo() {

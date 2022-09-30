@@ -15,7 +15,7 @@ public class Phone {
     @Column(name = "description", length = 45)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "person_id", nullable = false, referencedColumnName = "id")
     private Person person;
 
