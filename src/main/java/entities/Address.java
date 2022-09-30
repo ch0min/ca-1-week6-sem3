@@ -11,6 +11,7 @@ import java.util.Set;
 @Table(name = "ADDRESS")
 public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
     @Id
     private Integer id;
 
@@ -18,8 +19,7 @@ public class Address {
     @JoinColumn(name = "zip", nullable = false)
     private Cityinfo zip;
 
-    @Size(max = 45)
-    @Column(name = "street", length = 45)
+    @Column(name = "street")
     private String street;
 
     @OneToMany(mappedBy = "address", cascade = CascadeType.PERSIST)

@@ -1,145 +1,132 @@
--- MySQL Workbench Forward Engineering
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
-SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
-SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
-SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE =
-        'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema startcode
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `startcode` ;
 
 -- -----------------------------------------------------
 -- Schema startcode
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `startcode`;
-
--- -----------------------------------------------------
--- Schema startcode
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `startcode` DEFAULT CHARACTER SET utf8;
-USE `startcode`;
+CREATE SCHEMA IF NOT EXISTS `startcode` DEFAULT CHARACTER SET utf8mb3 ;
+USE `startcode` ;
 
 -- -----------------------------------------------------
 -- Table `startcode`.`CITYINFO`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `startcode`.`CITYINFO`;
+DROP TABLE IF EXISTS `startcode`.`CITYINFO` ;
 
-CREATE TABLE IF NOT EXISTS `startcode`.`CITYINFO`
-(
-    `zip`  INT         NOT NULL,
-    `city` VARCHAR(45) NULL,
-    PRIMARY KEY (`zip`)
-)
-    ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `startcode`.`CITYINFO` (
+                                                      `zip` INT NOT NULL,
+                                                      `city` VARCHAR(45) NULL DEFAULT NULL,
+                                                      PRIMARY KEY (`zip`))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
 -- Table `startcode`.`ADDRESS`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `startcode`.`ADDRESS`;
+DROP TABLE IF EXISTS `startcode`.`ADDRESS` ;
 
-CREATE TABLE IF NOT EXISTS `startcode`.`ADDRESS`
-(
-    `id`     INT         NOT NULL AUTO_INCREMENT,
-    `street` VARCHAR(45) NULL,
-    `zip`    INT         NOT NULL,
-    PRIMARY KEY (`id`, `zip`),
-    INDEX `fk_ADDRESS_CITYINFO1_idx` (`zip` ASC) VISIBLE,
-    CONSTRAINT `fk_ADDRESS_CITYINFO1`
-        FOREIGN KEY (`zip`)
-            REFERENCES `startcode`.`CITYINFO` (`zip`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
-)
-    ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `startcode`.`PERSON`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `startcode`.`PERSON`;
-
-CREATE TABLE IF NOT EXISTS `startcode`.`PERSON`
-(
-    `id`         INT          NOT NULL AUTO_INCREMENT,
-    `email`      VARCHAR(255) NULL,
-    `first_name` VARCHAR(45)  NULL,
-    `last_name`  VARCHAR(45)  NULL,
-    `address_id` INT          NOT NULL,
-    PRIMARY KEY (`id`, `address_id`),
-    INDEX `fk_PERSON_ADDRESS1_idx` (`address_id` ASC) VISIBLE,
-    CONSTRAINT `fk_PERSON_ADDRESS1`
-        FOREIGN KEY (`address_id`)
-            REFERENCES `startcode`.`ADDRESS` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
-)
-    ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `startcode`.`ADDRESS` (
+                                                     `address_id` INT NOT NULL AUTO_INCREMENT,
+                                                     `street` VARCHAR(45) NULL DEFAULT NULL,
+                                                     `zip` INT NOT NULL,
+                                                     PRIMARY KEY (`address_id`, `zip`),
+                                                     INDEX `fk_ADDRESS_CITYINFO1_idx` (`zip` ASC) VISIBLE,
+                                                     CONSTRAINT `fk_ADDRESS_CITYINFO1`
+                                                         FOREIGN KEY (`zip`)
+                                                             REFERENCES `startcode`.`CITYINFO` (`zip`))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
 -- Table `startcode`.`HOBBY`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `startcode`.`HOBBY`;
+DROP TABLE IF EXISTS `startcode`.`HOBBY` ;
 
-CREATE TABLE IF NOT EXISTS `startcode`.`HOBBY`
-(
-    `id`       INT          NOT NULL AUTO_INCREMENT,
-    `name`     VARCHAR(255) NULL,
-    `wikiLink` VARCHAR(255) NULL,
-    `category` VARCHAR(255) NULL,
-    `type`     VARCHAR(255) NULL,
-    PRIMARY KEY (`id`)
-)
-    ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `startcode`.`HOBBY` (
+                                                   `hobby_id` INT NOT NULL AUTO_INCREMENT,
+                                                   `name` VARCHAR(255) NULL DEFAULT NULL,
+                                                   `wikiLink` VARCHAR(255) NULL DEFAULT NULL,
+                                                   `category` VARCHAR(255) NULL DEFAULT NULL,
+                                                   `type` VARCHAR(255) NULL DEFAULT NULL,
+                                                   PRIMARY KEY (`hobby_id`))
+    ENGINE = InnoDB
+    AUTO_INCREMENT = 452
+    DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `startcode`.`PHONE`
+-- Table `startcode`.`PERSON`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `startcode`.`PHONE`;
+DROP TABLE IF EXISTS `startcode`.`PERSON` ;
 
-CREATE TABLE IF NOT EXISTS `startcode`.`PHONE`
-(
-    `phoneNumber` INT         NOT NULL,
-    `description` VARCHAR(45) NULL,
-    `person_id`   INT         NOT NULL,
-    PRIMARY KEY (`phoneNumber`, `person_id`),
-    INDEX `fk_PHONE_PERSON1_idx` (`person_id` ASC) VISIBLE,
-    CONSTRAINT `fk_PHONE_PERSON1`
-        FOREIGN KEY (`person_id`)
-            REFERENCES `startcode`.`PERSON` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
-)
-    ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `startcode`.`PERSON` (
+                                                    `person_id` INT NOT NULL AUTO_INCREMENT,
+                                                    `email` VARCHAR(255) NULL DEFAULT NULL,
+                                                    `first_name` VARCHAR(45) NULL DEFAULT NULL,
+                                                    `last_name` VARCHAR(45) NULL DEFAULT NULL,
+                                                    `address_id` INT NOT NULL,
+                                                    PRIMARY KEY (`person_id`, `address_id`),
+                                                    INDEX `fk_PERSON_ADDRESS1_idx` (`address_id` ASC) VISIBLE,
+                                                    CONSTRAINT `fk_PERSON_ADDRESS1`
+                                                        FOREIGN KEY (`address_id`)
+                                                            REFERENCES `startcode`.`ADDRESS` (`address_id`))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
 -- Table `startcode`.`PERSON_HOBBY`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `startcode`.`PERSON_HOBBY`;
+DROP TABLE IF EXISTS `startcode`.`PERSON_HOBBY` ;
 
-CREATE TABLE IF NOT EXISTS `startcode`.`PERSON_HOBBY`
-(
-    `person_id` INT NOT NULL,
-    `hobby_id`  INT NOT NULL,
-    PRIMARY KEY (`person_id`, `hobby_id`),
-    INDEX `fk_PERSON_has_HOBBY_HOBBY1_idx` (`hobby_id` ASC) VISIBLE,
-    INDEX `fk_PERSON_has_HOBBY_PERSON_idx` (`person_id` ASC) VISIBLE,
-    CONSTRAINT `fk_PERSON_has_HOBBY_PERSON`
-        FOREIGN KEY (`person_id`)
-            REFERENCES `startcode`.`PERSON` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
-    CONSTRAINT `fk_PERSON_has_HOBBY_HOBBY1`
-        FOREIGN KEY (`hobby_id`)
-            REFERENCES `startcode`.`HOBBY` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
-)
-    ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `startcode`.`PERSON_HOBBY` (
+                                                          `person_id` INT NOT NULL,
+                                                          `hobby_id` INT NOT NULL,
+                                                          PRIMARY KEY (`person_id`, `hobby_id`),
+                                                          INDEX `fk_PERSON_has_HOBBY_HOBBY1_idx` (`hobby_id` ASC) VISIBLE,
+                                                          INDEX `fk_PERSON_has_HOBBY_PERSON_idx` (`person_id` ASC) VISIBLE,
+                                                          CONSTRAINT `fk_PERSON_has_HOBBY_HOBBY1`
+                                                              FOREIGN KEY (`hobby_id`)
+                                                                  REFERENCES `startcode`.`HOBBY` (`hobby_id`),
+                                                          CONSTRAINT `fk_PERSON_has_HOBBY_PERSON`
+                                                              FOREIGN KEY (`person_id`)
+                                                                  REFERENCES `startcode`.`PERSON` (`person_id`))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb3;
 
-SET SQL_MODE = @OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Table `startcode`.`PHONE`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `startcode`.`PHONE` ;
+
+CREATE TABLE IF NOT EXISTS `startcode`.`PHONE` (
+                                                   `phoneNumber` INT NOT NULL,
+                                                   `description` VARCHAR(45) NULL DEFAULT NULL,
+                                                   `person_id` INT NOT NULL,
+                                                   PRIMARY KEY (`phoneNumber`, `person_id`),
+                                                   INDEX `fk_PHONE_PERSON1_idx` (`person_id` ASC) VISIBLE,
+                                                   CONSTRAINT `fk_PHONE_PERSON1`
+                                                       FOREIGN KEY (`person_id`)
+                                                           REFERENCES `startcode`.`PERSON` (`person_id`))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb3;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 INSERT INTO HOBBY (name, wikiLink, category, type)
 VALUES ('3D-udskrivning', 'https://en.wikipedia.org/wiki/3D_printing', 'Generel', 'Indendørs');

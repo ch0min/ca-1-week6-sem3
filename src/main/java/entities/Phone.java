@@ -12,12 +12,11 @@ public class Phone {
     @Column(name = "phoneNumber")
     private Integer phoneNumber;
 
-    @Size(max = 45)
-    @Column(name = "description", length = 45)
+    @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "person_id", nullable = false, referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id")
     private Person person;
 
 

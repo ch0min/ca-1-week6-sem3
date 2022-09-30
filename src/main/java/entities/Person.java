@@ -8,27 +8,24 @@ import java.util.Set;
 
 @Entity
 @NamedQuery(name = "Person.deleteAllRows", query = "DELETE from Person")
-
 @Table(name = "PERSON")
 public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "person_id")
     @Id
     private Integer id;
 
-    @Size(max = 255)
     @Column(name = "email")
     private String email;
 
-    @Size(max = 45)
-    @Column(name = "first_name", length = 45)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Size(max = 45)
-    @Column(name = "last_name", length = 45)
+    @Column(name = "last_name")
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "address_id", nullable = false, referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)

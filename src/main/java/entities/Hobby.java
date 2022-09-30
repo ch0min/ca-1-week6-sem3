@@ -11,22 +11,18 @@ import java.util.Set;
 public class Hobby {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "hobby_id", nullable = false)
     private Integer id;
 
-    @Size(max = 255)
     @Column(name = "name")
     private String name;
 
-    @Size(max = 255)
     @Column(name = "wikiLink")
     private String wikiLink;
 
-    @Size(max = 255)
     @Column(name = "category")
     private String category;
 
-    @Size(max = 255)
     @Column(name = "type")
     private String type;
 

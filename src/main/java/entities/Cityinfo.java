@@ -13,12 +13,10 @@ public class Cityinfo {
     @Column(name = "zip", nullable = false)
     private Integer id;
 
-    @Size(max = 45)
-    @Column(name = "city", length = 45)
+    @Column(name = "city")
     private String city;
 
     @OneToMany(mappedBy = "zip", cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "zip", nullable = false)
     private Set<Address> addresses = new LinkedHashSet<>();
 
     public Cityinfo() {
