@@ -47,6 +47,13 @@ public class Hobby {
         this.personSet = personSet;
     }
 
+    public Hobby(String name, String wikiLink, String category, String type) {
+        this.name = name;
+        this.wikiLink = wikiLink;
+        this.category = category;
+        this.type = type;
+    }
+
     public Integer getId() {
         return id;
     }

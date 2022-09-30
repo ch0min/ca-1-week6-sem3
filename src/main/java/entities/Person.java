@@ -52,6 +52,13 @@ public class Person {
         this.hobbies = hobbies;
     }
 
+    public Person(String email, String firstName, String lastName, Address address) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+    }
+
     public Integer getId() {
         return id;
     }

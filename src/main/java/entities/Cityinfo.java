@@ -30,6 +30,11 @@ public class Cityinfo {
         this.addresses = addresses;
     }
 
+    public Cityinfo(Integer id, String city) {
+        this.id = id;
+        this.city = city;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -34,6 +34,11 @@ public class Address {
         this.people = people;
     }
 
+    public Address(String street, Cityinfo zip) {
+        this.zip = zip;
+        this.street = street;
+    }
+
     public Integer getId() {
         return id;
     }

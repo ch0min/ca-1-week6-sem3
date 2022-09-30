@@ -5,6 +5,7 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
+@NamedQuery(name = "Phone.deleteAllRows", query = "DELETE from Phone")
 @Table(name = "PHONE")
 public class Phone {
     @Id
@@ -25,6 +26,11 @@ public class Phone {
 
     public Phone(Person person, String description) {
         this.person = person;
+        this.description = description;
+    }
+
+    public Phone(Integer phoneNumber, String description) {
+        this.phoneNumber = phoneNumber;
         this.description = description;
     }
 
