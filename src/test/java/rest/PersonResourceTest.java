@@ -123,7 +123,7 @@ public class PersonResourceTest {
     void getPeopleInCity(){
         List<PersonDTO> personDTOList =
                 given().contentType("application/json").when()
-                        .get("/person/cityzip/"+p1.getAddress().getZip().getId())
+                        .get("/person/cityzip/"+p1.getAddress().getZip())
                         .then().extract().body().jsonPath()
                         .getList("", PersonDTO.class);
 

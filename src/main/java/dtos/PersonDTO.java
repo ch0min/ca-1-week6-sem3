@@ -23,7 +23,7 @@ public class PersonDTO {
 
     public PersonDTO(Person p) {
 //        if (p.getId() != 0)
-            this.id = p.getId();
+//            this.id = p.getId();
         this.email = p.getEmail();
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
