@@ -1,5 +1,6 @@
 package facades;
 
+import entities.Address;
 import entities.Person;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ public class PersonFacadeTest {
     private static EntityManagerFactory emf;
     private static PersonFacade facade;
     Person p1, p2, p3;
+    Address a1, a2;
 
     public PersonFacadeTest() {
     }
@@ -22,22 +24,25 @@ public class PersonFacadeTest {
         facade = PersonFacade.getPersonFacade(emf);
     }
 
-//    @BeforeEach
-//    public void setUp() {
-//        EntityManager em = emf.createEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
-//            p1 = new Person("Mark", "Chomin", "29842712");
-//            p2 = new Person("Nick", "Lundgaard", "12345678");
-//            em.persist(p1);
-//            em.persist(p2);
-//
-//            em.getTransaction().commit();
-//        } finally {
-//            em.close();
-//        }
-//    }
+    @BeforeEach
+    public void setUp() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
+
+
+            p1 = new Person("Mark", "Chomin", "29842712");
+            p2 = new Person("Nick", "Lundgaard", "12345678");
+            em.persist(p1);
+            em.persist(p2);
+
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
 
 }
 

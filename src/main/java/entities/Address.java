@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@NamedQuery(name = "Address.deleteAllRows", query = "DELETE from Address")
 @Table(name = "ADDRESS")
 public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
