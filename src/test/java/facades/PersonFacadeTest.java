@@ -40,9 +40,9 @@ public class PersonFacadeTest {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-//            em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
-//            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
-//            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
 
             ph1 = new Phone(29842712, "HOME");
             ph2 = new Phone(12345678, "WORK");
@@ -80,9 +80,9 @@ public class PersonFacadeTest {
             em.persist(p2);
 
 
-//            pdto1 = new PersonDTO(p1);
-//            pdto2 = new PersonDTO(p2);
-//            pdto3 = new PersonDTO(p3);
+            pdto1 = new PersonDTO(p1);
+            pdto2 = new PersonDTO(p2);
+            pdto3 = new PersonDTO(p3);
             em.getTransaction().commit();
         } finally {
             em.close();

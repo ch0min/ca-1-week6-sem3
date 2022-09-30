@@ -1,7 +1,10 @@
 package rest;
 
 import dtos.PersonDTO;
+import entities.Address;
+import entities.Hobby;
 import entities.Person;
+import entities.Phone;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
@@ -22,8 +25,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,6 +36,8 @@ public class PersonResourceTest {
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
     private static PersonDTO p1, p2;
+    private static Phone ph1, ph2;
+    private static Hobby h1,h2;
 
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
     private static HttpServer httpServer;
@@ -71,13 +75,27 @@ public class PersonResourceTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-//        p1 = new PersonDTO
-//        p2 = null;
+
+        ph1 = new Phone(29842712, "HOME");
+        ph2 = new Phone(12345678, "WORK");
+        h1 = new Hobby("3D-udskrivning", "https://en.wikipedia.org/wiki/3D_printing", "Generel", "Indendørs");
+        h2 = new Hobby("Akrobatik", "https://en.wikipedia.org/wiki/Acrobatics", "Generel", "Indendørs");
+
+        p1 = new PersonDTO(new Person("test@test.dk","oscar","tuff",new Address("vejen 1", 2900)));
+        p1.getHobbies().add(h1);
+        p1.getHobbies().add(h2);
+        p1.getPhones().add(ph1);
+        p2 = null;
         try {
             em.getTransaction().begin();
-//            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-//            em.persist(r1);
-//            em.persist(r2);
+            em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Hobby.deleteAllRows").executeUpdate();
+            em.persist(h1);
+            em.persist(h2);
+            em.persist(p1.getEntity());
+//            em.persist(p2);
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -93,7 +111,7 @@ public class PersonResourceTest {
     @Test
     void getPersonByPhone() {
         PersonDTO personDTO = given().contentType("application/json").when()
-                .get("/person/phone/" + p1.getPhones().toArray()[0]).as(PersonDTO.class);
+                .get("/person/phone/" + p1.getPhones().stream().findFirst().get().getPhoneNumber()).as(PersonDTO.class);
 
         assertThat(personDTO, equalTo(p1));
     }
@@ -102,7 +120,7 @@ public class PersonResourceTest {
     void getAllPersonsByHobby(){
         List<PersonDTO> personDTOList =
                 given().contentType("application/json").when()
-                .get("/person/hobby/"+p1.getHobbies().toArray()[0])//find hobbyid ?? tostring
+                .get("/person/hobby/"+p1.getHobbies().stream().findFirst().get().getName())
                 .then().extract().body().jsonPath()
                 .getList("", PersonDTO.class);
 
@@ -113,10 +131,11 @@ public class PersonResourceTest {
     void getAmountWithHobby(){
         List<PersonDTO> personDTOList =
                 given().contentType("application/json").when()
-                        .get("/person/hobby/"+p1.getHobbies().toArray()[0])//find hobbyid ?? tostring
+                        .get("/person/hobby/"+p1.getHobbies().size())
                         .then().extract().body().jsonPath()
                         .getList("", PersonDTO.class);
-//        assertThat(personDTOList.size(), 1);
+
+        assertThat(personDTOList, hasSize(1));
     }
 
     @Test
@@ -129,7 +148,6 @@ public class PersonResourceTest {
 
         assertThat(personDTOList, containsInAnyOrder(p1));
     }
-
 
     @Test
     void createPerson(){
