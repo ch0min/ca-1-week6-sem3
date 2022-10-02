@@ -2,6 +2,7 @@ package facades;
 
 import dtos.PersonDTO;
 import entities.*;
+import errorhandling.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,11 @@ import utils.EMF_Creator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PersonFacadeTest {
     private static EntityManagerFactory emf;
@@ -40,9 +45,10 @@ public class PersonFacadeTest {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-//            em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
-//            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
-//            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Phone.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Address.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Hobby.deleteAllRows").executeUpdate();
 
             ph1 = new Phone(29842712, "HOME");
             ph2 = new Phone(12345678, "WORK");
@@ -54,7 +60,7 @@ public class PersonFacadeTest {
 
             h1 = new Hobby("3D-udskrivning", "https://en.wikipedia.org/wiki/3D_printing", "Generel", "Indendørs");
             h2 = new Hobby("Akrobatik", "https://en.wikipedia.org/wiki/Acrobatics", "Generel", "Indendørs");
-//            h3 = new Hobby("Skuespil", "https://en.wikipedia.org/wiki/Acting", "Generel", "Indendørs");
+            h3 = new Hobby("Skuespil", "https://en.wikipedia.org/wiki/Acting", "Generel", "Indendørs");
 //            h4 = new Hobby("Amatørradio", "https://en.wikipedia.org/wiki/Amateur_radio", "Generel", "Indendørs");
 //            h5 = new Hobby("Animation", "https://en.wikipedia.org/wiki/Animation", "Generel", "Indendørs");
 //            h6 = new Hobby("Aquascaping", "https://en.wikipedia.org/wiki/Aquascaping", "Generel", "Indendørs");
@@ -68,28 +74,79 @@ public class PersonFacadeTest {
 
             p1.getHobbies().add(h1);
             p1.getHobbies().add(h2);
-//            p2.getHobbies().add(h3);
+            p2.getHobbies().add(h1);
 //            p2.getHobbies().add(h4);
 //            p3.getHobbies().add(h5);
 //            p3.getHobbies().add(h6);
+
             em.persist(h1);
             em.persist(h2);
+            em.persist(h3);
+
 
             em.persist(p1);
             em.persist(p2);
-            em.persist(p2);
-lol
+//            em.persist(p3);
 
-//            pdto1 = new PersonDTO(p1);
-//            pdto2 = new PersonDTO(p2);
-//            pdto3 = new PersonDTO(p3);
+            pdto1 = new PersonDTO(p1);
+            pdto2 = new PersonDTO(p2);
+            pdto3 = new PersonDTO(p3);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
+
     @Test
     void dummytest() {
         System.out.println("hello!");
     }
+
+
+
+
+    @Test
+    void createPersonTest() {
+        System.out.println("Testing create(PersonDTO pdto3)");
+        pdto3 = new PersonDTO(p3);
+        pdto3.setId(3);
+        PersonDTO expected = pdto3;
+        PersonDTO actual = facade.createPerson(pdto3);
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    void updatePersonTest() {
+        System.out.println("Testing Update(PersonDTO pdto1)");
+        pdto1.setEmail("Test@Test.dk");
+        String expected = pdto1.getEmail();
+        String actual = facade.updatePerson(pdto1).getEmail();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void deletePerson() throws EntityNotFoundException {
+        System.out.println("Testing delete(id)");
+        PersonDTO personDTO = facade.deletePerson(pdto2.getId());
+        int expected = 1;
+        int actual = facade.getAllPersons().size();
+        assertEquals(expected, actual);
+        assertEquals(personDTO, pdto2);
+    }
+
+    @Test
+    void getNumberOfPeopleWithGivenHobby() throws EntityNotFoundException {
+        System.out.println("Testing getNumberOfPeopleWithGivenHobby(string)");
+        List<PersonDTO> expected = facade.getNumberOfPeopleWithGivenHobby(String.valueOf(h1.getPersonSet()));
+        List<PersonDTO> actual = facade.getNumberOfPeopleWithGivenHobby(h1.getName());
+        assertEquals(expected, actual);
+    }
+
+
+
+
+
+
+
 }
