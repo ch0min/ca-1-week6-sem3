@@ -33,6 +33,12 @@ public class Phone {
         this.description = description;
     }
 
+    public Phone(Integer phoneNumber, String description, Person person) {
+        this.phoneNumber = phoneNumber;
+        this.description = description;
+        this.person = person;
+    }
+
     public Integer getPhoneNumber() {
         return phoneNumber;
     }

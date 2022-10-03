@@ -23,7 +23,7 @@ public class PersonDTO {
 
     public PersonDTO(Person p) {
 //        if (p.getId() != 0)
-//            this.id = p.getId();
+            this.id = p.getId();
         this.email = p.getEmail();
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
@@ -31,6 +31,10 @@ public class PersonDTO {
         this.address = p.getAddress();
         this.phones = p.getPhones();
         this.hobbies = p.getHobbies();
+
+    }
+
+    public PersonDTO(List<Person> numberOfPeopleWithGivenHobby) {
 
     }
 
@@ -49,7 +53,7 @@ public class PersonDTO {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

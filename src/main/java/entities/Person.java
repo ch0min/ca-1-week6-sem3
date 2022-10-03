@@ -40,6 +40,15 @@ public class Person {
     public Person() {
     }
 
+
+    public Person(Integer id, String email, String firstName, String lastName, Address address) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+    }
+
     public Person(String email, String firstName, String lastName, Address address, Set<Phone> phones, Set<Hobby> hobbies) {
         this.email = email;
         this.firstName = firstName;
@@ -55,6 +64,15 @@ public class Person {
         this.lastName = lastName;
         this.address = address;
     }
+
+    public Person(String email, String firstName, String lastName, Address address, Set<Phone> phones) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phones = phones;
+    }
+
 
     public Integer getId() {
         return id;
