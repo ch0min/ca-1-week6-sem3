@@ -73,6 +73,11 @@ public class Person {
         this.phones = phones;
     }
 
+    public Person(String email, String firstName, String lastName) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public Integer getId() {
         return id;
