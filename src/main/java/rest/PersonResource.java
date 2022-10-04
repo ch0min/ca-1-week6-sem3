@@ -13,11 +13,17 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("person")
-
 public class PersonResource {
 
     private static final IPersonFacade<PersonDTO> FACADE =  PersonDTOFacade.getFacade();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAllPersons() {
+        return Response.ok().entity(GSON.toJson(FACADE.getAllPersons())).build();
+    }
 
     @GET
     @Path("/phone/{phone}" )

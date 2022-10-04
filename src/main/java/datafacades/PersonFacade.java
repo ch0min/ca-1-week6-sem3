@@ -146,7 +146,10 @@ public class PersonFacade implements IPersonFacade<Person> {
 //        pf.deletePerson(4);
 //        System.out.println(pf.getNumberOfPeopleWithGivenHobby("3D-udskrivning"));
 //        System.out.println(pf.getAllPersonsByHobby("3D-udskrivning"));
-//        System.out.println(pf.getPersonByPhone(12341234));
+
+        List<Person> pl = pf.getPersonByPhone(12341234);
+
+        System.out.println(pl.get(0).getHobbies());
 //        System.out.println(pf.getPeopleInCity(2800));
 
     }
