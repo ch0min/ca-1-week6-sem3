@@ -1,8 +1,6 @@
-package datafacades;
+package facades;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import entities.Address;
+import dtos.PersonDTO;
 import entities.Person;
 import utils.EMF_Creator;
 
@@ -12,8 +10,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class PersonFacade implements IPersonFacade<Person> {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+public class PersonFacade {
 
     private static PersonFacade instance;
     private static EntityManagerFactory emf;
@@ -34,15 +31,20 @@ public class PersonFacade implements IPersonFacade<Person> {
         return emf.createEntityManager();
     }
 
-    public List<Person> getAllPersons() {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p", Person.class);
-        List<Person> persons = query.getResultList();
 
-        return persons;
+    public List<PersonDTO> getAllPersons() throws EntityNotFoundException {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p", Person.class);
+            List<Person> persons = query.getResultList();
+
+            return PersonDTO.getDTOs(persons);
+        } finally {
+            em.close();
+        }
     }
 
-    public List<Person> getPersonByPhone(int phone) {
+    public List<Person> getPersonByPhone(int phone) throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
 
         try {
@@ -82,7 +84,7 @@ public class PersonFacade implements IPersonFacade<Person> {
     }
 
 
-    public List<Person> getPersonsByCityZip(int zip) {
+    public List<Person> getPersonsByCityZip(int zip) throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
 
         try {
@@ -95,7 +97,7 @@ public class PersonFacade implements IPersonFacade<Person> {
         }
     }
 
-    public Person createPerson(Person p) {
+    public Person createPerson(Person p) throws EntityNotFoundException {
         Person personEntity = new Person(p.getEmail(), p.getFirstName(), p.getLastName(), p.getAddress());
         EntityManager em = getEntityManager();
         try {
@@ -109,7 +111,7 @@ public class PersonFacade implements IPersonFacade<Person> {
     }
 
 
-    public Person updatePerson(Person person) {
+    public Person updatePerson(Person person) throws EntityNotFoundException {
         EntityManager em = getEntityManager();
         if (person.getId() == 0)
             throw new javax.persistence.EntityNotFoundException("No such Person with id: " + person.getId());
@@ -119,7 +121,7 @@ public class PersonFacade implements IPersonFacade<Person> {
         return p;
     }
 
-    public Person deletePerson(int id) {
+    public Person deletePerson(int id) throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
         Person person = em.find(Person.class, id);
         try {

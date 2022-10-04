@@ -1,14 +1,14 @@
-package entities;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
-
+//package entities;
+//
+//import javax.persistence.*;
+//import javax.validation.constraints.Size;
+//import java.util.LinkedHashSet;
+//import java.util.Objects;
+//import java.util.Set;
+//
 //@Entity
 //@Table(name = "CITYINFO")
-public class Cityinfo {
+//public class Cityinfo {
 //    @Id
 //    @Column(name = "zip", nullable = false)
 //    private Integer id;
@@ -78,4 +78,4 @@ public class Cityinfo {
 //                ", addresses=" + addresses +
 //                '}';
 //    }
-}
+//}

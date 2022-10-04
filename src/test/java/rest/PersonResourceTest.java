@@ -2,15 +2,12 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import datafacades.PersonFacade;
 import dtos.PersonDTO;
 import entities.Address;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
-import datafacades.PersonFacade;
 import io.restassured.http.ContentType;
-import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
@@ -26,7 +23,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -42,11 +38,12 @@ public class PersonResourceTest {
 
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
-    private static PersonDTO p1, p2;
+    private static Person p1;
+    private static PersonDTO p2;
+    private static PersonDTO pdto;
     private static Phone ph1, ph2;
     private static Hobby h1,h2;
 
-    private static PersonFacade facade;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
@@ -71,9 +68,6 @@ public class PersonResourceTest {
         RestAssured.port = SERVER_PORT;
         RestAssured.defaultParser = Parser.JSON;
 
-        //ttt
-        facade = PersonFacade.getPersonFacade(emf);
-        //
     }
 
     @AfterAll
@@ -93,10 +87,11 @@ public class PersonResourceTest {
 
         ph1 = new Phone(29842712, "HOME");
         ph2 = new Phone(12345678, "WORK");
+
         h1 = new Hobby("3D-udskrivning", "https://en.wikipedia.org/wiki/3D_printing", "Generel", "Indendørs");
         h2 = new Hobby("Akrobatik", "https://en.wikipedia.org/wiki/Acrobatics", "Generel", "Indendørs");
 
-        p1 = new PersonDTO(new Person("test@test.dk","oscar","tuff",new Address("vejen 1", 2900)));
+        p1 = new Person("test@test.dk","oscar","tuff",new Address("vejen 1", 2900));
         p1.getHobbies().add(h1);
         p1.getHobbies().add(h2);
         p1.getPhones().add(ph1);
@@ -109,7 +104,9 @@ public class PersonResourceTest {
             em.createNamedQuery("Hobby.deleteAllRows").executeUpdate();
             em.persist(h1);
             em.persist(h2);
-            em.persist(p1.getEntity());
+            em.persist(p1);
+
+            pdto = new PersonDTO(p1);
 //            em.persist(p2);
             em.getTransaction().commit();
         } finally {
@@ -153,16 +150,43 @@ public class PersonResourceTest {
         assertThat(personDTOList, hasSize(1));
     }
 
+//    @Test
+//    void getPersonsByCityZip(){
+//        List<PersonDTO> personDTOList =
+//                given().contentType("application/json").when()
+//                        .get("/person/cityzip/"+p1.getAddress().getZip())
+//                        .then().extract().body().jsonPath()
+//                        .getList("", PersonDTO.class);
+//
+//        assertThat(personDTOList, containsInAnyOrder(p1));
+//    }
+
     @Test
-    void getPeopleInCity(){
+    void getPersonsByCityZip(){
         List<PersonDTO> personDTOList =
                 given().contentType("application/json").when()
-                        .get("/person/cityzip/"+p1.getAddress().getZip())
+                        .get("/person/cityzip/" + pdto.getAddress().getZip())
                         .then().extract().body().jsonPath()
                         .getList("", PersonDTO.class);
 
-        assertThat(personDTOList, containsInAnyOrder(p1));
+        assertThat(personDTOList, containsInAnyOrder(pdto));
     }
+
+//    @Test
+//    public void getPersonsByCityZipTest() {
+//        given()
+//                .contentType(ContentType.JSON)
+//                .get("/person/cityzip/{zip}", p1.getAddress().getZip())
+//                .then()
+//                .assertThat()
+//                .statusCode(HttpStatus.OK_200.getStatusCode())
+//                .body("id", equalTo(p1.getId()))
+//                .body("email", equalTo(p1.getEmail()))
+//                .body("forName", equalTo(p1.getFirstName()))
+//                .body("address", equalTo(p1.getAddress()));
+//
+//    }
+
 
     @Test
     void createPerson(){

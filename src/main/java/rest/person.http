@@ -1,7 +1,8 @@
 ### Get All Persons
-GET http://localhost:8080/ca1/api/person/
+GET http://localhost:8080/ca1_war_exploded/api/person/all
 Accept: application/json
 
-##
-#GET http://localhost:8080/rest_exercises_war_exploded/api/person/7
-#Accept: application/json
+
+### Get All Persons
+GET http://localhost:8080/ca/api/person/
+Accept: application/json

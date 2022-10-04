@@ -5,55 +5,60 @@ import entities.Hobby;
 import entities.Person;
 import entities.Phone;
 
-import java.util.LinkedHashSet;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-public class PersonDTO {
+public class PersonDTO implements Serializable {
+
     private Integer id;
     private String email;
     private String firstName;
     private String lastName;
 
-    private Address address;
-    private Set<Phone> phones = new LinkedHashSet<>();
-    private Set<Hobby> hobbies = new LinkedHashSet<>();
+    private AddressInnerDTO address;
+
+    private List<PhoneInnerDTO> phones = new ArrayList<>();
+    private List<HobbyInnerDTO> hobbies = new ArrayList<>();
+
+    public PersonDTO(Integer id, String email, String firstName, String lastName, AddressInnerDTO address) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+    }
 
     public PersonDTO(Person p) {
-//        if (p.getId() != 0)
-            this.id = p.getId();
+        this.id = p.getId();
         this.email = p.getEmail();
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
 
-        this.address = p.getAddress();
-        this.phones = p.getPhones();
-        this.hobbies = p.getHobbies();
+        this.address = new AddressInnerDTO(p.getAddress());
 
+        p.getPhones().forEach( phone -> {
+            phones.add(new PhoneInnerDTO(phone));
+        });
+
+        p.getHobbies().forEach( hobby -> {
+            hobbies.add(new HobbyInnerDTO(hobby));
+        });
     }
 
-    public PersonDTO(List<Person> numberOfPeopleWithGivenHobby) {
-
-    }
-
-    public static List<PersonDTO> toListPersons(List<Person> persons) {
-        return persons.stream().map(PersonDTO::new).collect(Collectors.toList());
-    }
-
-    public Person getEntity(){
-        Person p = new Person(this.email, this.firstName, this.lastName, this.address, this.phones, this.hobbies);
-        //if(id != 0)
-            p.setId(this.id);
-        return p;
+    public static List<PersonDTO> getDTOs(List<Person> persons) {
+        List<PersonDTO> personDTOList = new ArrayList<>();
+        persons.forEach(person -> {
+            personDTOList.add(new PersonDTO(person));
+        });
+        return personDTOList;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -81,27 +86,27 @@ public class PersonDTO {
         this.lastName = lastName;
     }
 
-    public Address getAddress() {
+    public AddressInnerDTO getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressInnerDTO address) {
         this.address = address;
     }
 
-    public Set<Phone> getPhones() {
+    public List<PhoneInnerDTO> getPhones() {
         return phones;
     }
 
-    public void setPhones(Set<Phone> phones) {
+    public void setPhones(List<PhoneInnerDTO> phones) {
         this.phones = phones;
     }
 
-    public Set<Hobby> getHobbies() {
+    public List<HobbyInnerDTO> getHobbies() {
         return hobbies;
     }
 
-    public void setHobbies(Set<Hobby> hobbies) {
+    public void setHobbies(List<HobbyInnerDTO> hobbies) {
         this.hobbies = hobbies;
     }
 
@@ -118,16 +123,173 @@ public class PersonDTO {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PersonDTO)) return false;
-        PersonDTO personDTO = (PersonDTO) o;
-        return getId().equals(personDTO.getId());
+    // INNER ADDRESS DTO CLASS
+    public static class AddressInnerDTO implements Serializable {
+        private Integer id;
+        private Integer zip;
+        private String street;
+
+        public AddressInnerDTO(Integer id, Integer zip, String street) {
+            this.id = id;
+            this.zip = zip;
+            this.street = street;
+        }
+
+        public AddressInnerDTO(Address address) {
+            this.id = address.getId();
+            this.zip = address.getZip();
+            this.street = address.getStreet();
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public Integer getZip() {
+            return zip;
+        }
+
+        public void setZip(Integer zip) {
+            this.zip = zip;
+        }
+
+        public String getStreet() {
+            return street;
+        }
+
+        public void setStreet(String street) {
+            this.street = street;
+        }
+
+        @Override
+        public String toString() {
+            return "AddressInnerDTO{" +
+                    "id=" + id +
+                    ", zip=" + zip +
+                    ", street='" + street + '\'' +
+                    '}';
+        }
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
+
+    // INNER PHONE DTO CLASS
+    public static class PhoneInnerDTO implements Serializable {
+        private Integer phoneNumber;
+        private String description;
+
+        public PhoneInnerDTO(Integer phoneNumber, String description) {
+            this.phoneNumber = phoneNumber;
+            this.description = description;
+        }
+
+        public PhoneInnerDTO(Phone phone) {
+            this.phoneNumber = phone.getPhoneNumber();
+            this.description = phone.getDescription();
+        }
+
+        public Integer getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(Integer phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        @Override
+        public String toString() {
+            return "PhoneInnerDTO{" +
+                    "phoneNumber=" + phoneNumber +
+                    ", description='" + description + '\'' +
+                    '}';
+        }
+    }
+
+
+    // INNER HOBBY DTO CLASS
+    public static class HobbyInnerDTO implements Serializable {
+        private Integer id;
+        private String name;
+        private String wikiLink;
+        private String category;
+        private String type;
+
+        public HobbyInnerDTO(Integer id, String name, String wikiLink, String category, String type) {
+            this.id = id;
+            this.name = name;
+            this.wikiLink = wikiLink;
+            this.category = category;
+            this.type = type;
+        }
+
+        public HobbyInnerDTO(Hobby hobby) {
+            this.id = hobby.getId();
+            this.name = hobby.getName();
+            this.wikiLink = hobby.getWikiLink();
+            this.category = hobby.getCategory();
+            this.type = hobby.getType();
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getWikiLink() {
+            return wikiLink;
+        }
+
+        public void setWikiLink(String wikiLink) {
+            this.wikiLink = wikiLink;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(String category) {
+            this.category = category;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        @Override
+        public String toString() {
+            return "HobbyInnerDTO{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", wikiLink='" + wikiLink + '\'' +
+                    ", category='" + category + '\'' +
+                    ", type='" + type + '\'' +
+                    '}';
+        }
     }
 }

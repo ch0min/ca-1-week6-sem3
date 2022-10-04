@@ -1,8 +1,6 @@
-package datafacades;
+package facades;
 
-import dtos.PersonDTO;
 import entities.*;
-import errorhandling.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,10 +8,7 @@ import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,16 +16,10 @@ public class PersonFacadeTest {
     private static EntityManagerFactory emf;
     private static PersonFacade facade;
     Person p1, p2, p3;
-
-    PersonDTO pdto1, pdto2, pdto3;
-
     Address a1, a2;
-
-    private Set<Phone> phones = new LinkedHashSet<>();
+    private List<Phone> phones = new ArrayList<>();
     Phone ph1, ph2;
-
     Hobby h1, h2, h3, h4, h5, h6;
-
     public PersonFacadeTest() {
     }
 
@@ -84,27 +73,10 @@ public class PersonFacadeTest {
             em.persist(p2);
 //            em.persist(p3);
 
-//            pdto1 = new PersonDTO(p1);
-//            pdto2 = new PersonDTO(p2);
-//            pdto3 = new PersonDTO(p3);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-    }
-
-    @Test
-    void dummytest() {
-        System.out.println("test!");
-    }
-
-
-    @Test
-    void getAllPersonsTest() {
-        System.out.println("Testing getAllPersons()");
-        int expected = 2;
-        int actual = facade.getAllPersons().size();
-        assertEquals(expected,actual);
     }
 
     @Test
@@ -116,6 +88,14 @@ public class PersonFacadeTest {
         Person expected = p3;
         Person actual = facade.createPerson(p3);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void getAllPersonsTest() {
+        System.out.println("Testing getAllPersons()");
+        int expected = 2;
+        int actual = facade.getAllPersons().size();
+        assertEquals(expected,actual);
     }
 
 
@@ -130,7 +110,7 @@ public class PersonFacadeTest {
 
     // Virker hvis man ikke tilføjer phone number til personen. Måske vi skal fixe det med cascade.
     @Test
-    void deletePerson() throws EntityNotFoundException {
+    void deletePersonTest() {
         System.out.println("Testing delete(id)");
         Person person = facade.deletePerson(p2.getId());
         int expected = 1;
@@ -139,14 +119,31 @@ public class PersonFacadeTest {
         assertEquals(person, p2);
     }
 
+    @Test
+    void getPersonByPhoneTest() {
+        System.out.println("Testing getPersonByPhone(phone)");
+        int expected = 2;
+        List<Person> actual = facade.getPersonByPhone(ph1.getPhoneNumber());
+        assertEquals(expected, actual.size());
+    }
 
-//    @Test
-//    void getNumberOfPeopleWithGivenHobby() throws EntityNotFoundException {
-//        System.out.println("Testing getNumberOfPeopleWithGivenHobby(string)");
-//        int expected = ;
-//        int actual = facade.getNumberOfPeopleWithGivenHobby();
-//        assertEquals(expected,actual);
-//    }
+
+    @Test
+    void getAllPersonsByHobbyTest() {
+        System.out.println("Testing getNumberOfPeopleWithGivenHobby(string)");
+        int expected = p1.getHobbies().toArray().length;
+        List<Person> actual = facade.getAllPersonsByHobby("3D-udskrivning");
+        assertEquals(expected, actual.size());
+    }
+
+
+    @Test
+    void getPersonsByCityZipTest() {
+        System.out.println("Testing getPersonsByCityZipTest(zip)");
+        int expected = 1;
+        List<Person> actual = facade.getPersonsByCityZip(p1.getAddress().getZip());
+        assertEquals(expected, actual.size());
+    }
 
 
 
