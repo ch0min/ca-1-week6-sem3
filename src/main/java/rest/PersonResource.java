@@ -7,6 +7,7 @@ import facades.PersonFacade;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,7 +28,7 @@ public class PersonResource {
         return Response.ok().entity(GSON.toJson(facade.getAllPersons())).build();
     }
 
-    // JONS EKSEMPEL
+//     JONS EKSEMPEL FRA VIDEO
 //    @Path("all")
 //    @GET
 //    @Produces({MediaType.APPLICATION_JSON})
