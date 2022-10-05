@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.PersonDTO;
+import entities.Address;
 import entities.Person;
 import utils.EMF_Creator;
 
@@ -133,6 +134,23 @@ public class PersonFacade {
             em.close();
         }
     }
+
+
+    /* *** ADDRESS ***/
+    public Address createAddress(Address a) throws EntityNotFoundException {
+        Address addressEntity = new Address(a.getStreet(), a.getZip());
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(addressEntity);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return addressEntity;
+    }
+
+
 
     public static void main(String[] args) {
         emf = EMF_Creator.createEntityManagerFactory();

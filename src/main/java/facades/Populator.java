@@ -7,6 +7,7 @@ package facades;
 
 import javax.persistence.EntityManagerFactory;
 
+import entities.Address;
 import entities.Person;
 import utils.EMF_Creator;
 
@@ -19,10 +20,19 @@ public class Populator {
         EntityManagerFactory emf = EMF_Creator.createEntityManagerFactory();
         PersonFacade pf = PersonFacade.getPersonFacade(emf);
 
-        pf.createPerson(new Person("mark@email.dk", "Mark", "Chomin"));
-        pf.createPerson(new Person("gustav@email.dk", "Gustav", "Boegh"));
-        pf.createPerson(new Person("rehman@email.dk", "Rehman", "Abra"));
-        pf.createPerson(new Person("oscar@email.dk", "Oscar", "Tuff"));
+        Address a1 = new Address("Nørgaardsvej 30", 2800);
+        Address a2 = new Address("Zinnia 10", 2770);
+        Address a3 = new Address("Østergade 7", 2300);
+        Address a4 = new Address("Linde 10", 2600);
+
+
+        pf.createAddress(a1);
+
+        pf.createPerson(new Person("mark@email.dk", "Mark", "Chomin", a1));
+        pf.createPerson(new Person("gustav@email.dk", "Gustav", "Boegh", a2));
+        pf.createPerson(new Person("rehman@email.dk", "Rehman", "Abra", a3));
+        pf.createPerson(new Person("oscar@email.dk", "Oscar", "Tuff", a4));
+
 
 
 
