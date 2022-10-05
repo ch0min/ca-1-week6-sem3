@@ -1,3 +1,51 @@
 ### Get All Persons
 GET http://localhost:8080/ca1/api/person/
 Accept: application/json
+
+
+###
+POST http://localhost:8080/ca1/api/person/
+Content-Type: application/json
+
+{
+  "email": "mark@email.dk",
+  "firstName": "Hans",
+  "lastName": "Karl",
+  "address": {
+    "zip": 2800,
+    "street": "Nørgaardsvej 30"}
+}
+
+###
+PUT http://localhost:8080/ca1/api/person/1
+Content-Type: application/json
+
+{
+  "email": "oskar@email.dk",
+  "firstName": "STEEN",
+  "lastName": "Hans",
+  "address": {
+    "zip": 2600,
+    "street": "Tisvej 4"
+  },
+  "phones": [
+    {
+      "phoneNumber": 40573503,
+      "description": "WORK"
+    }
+  ],
+  "hobbies": [
+    {
+      "name": "Generel",
+      "wikiLink": "Skuespil",
+      "category": "Indendørs",
+      "type": "https://en.wikipedia.org/wiki/Acting"
+    }
+  ]
+}
+
+###
+DELETE http://localhost:8080/ca1/api/person/9
+Content-Type: application/json
+
+

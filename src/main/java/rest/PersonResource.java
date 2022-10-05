@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.PersonDTO;
+import entities.Person;
 import facades.PersonFacade;
 import utils.EMF_Creator;
 
@@ -37,56 +38,56 @@ public class PersonResource {
 //        return GSON.toJson(personDTOList);
 //    }
 
-//    @GET
-//    @Path("/phone/{phone}" )
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response getPersonByPhone(@PathParam("phone") int phone) throws EntityNotFoundException {
-//        List<PersonDTO> personDTO = facade.getPersonByPhone(phone);
-//        return Response.ok().entity(personDTO).build();
-//    }
-//
-//    @GET
-//    @Path("/hobby/{hobbyname}" )
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response getPersonByHobby(@PathParam("hobbyname") String hobby) throws EntityNotFoundException {
-//        List<PersonDTO> personDTO = facade.getAllPersonsByHobby(hobby);
-//        return Response.ok().entity(personDTO).build();
-//    }
-//    @GET
-//    @Path("/cityzip/{zip}" )
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response getPersonsByCityZip(@PathParam("zip") int zip) throws EntityNotFoundException {
-//        List<PersonDTO> personDTO = facade.getPersonsByCityZip(zip);
-//        return Response.ok().entity(personDTO).build();
-//    }
-//
-//    @DELETE
-//    @Produces({MediaType.APPLICATION_JSON})
-//    @Path("{id}")
-//    public Response deletePerson(@PathParam("id") int id) throws EntityNotFoundException {
-//        System.out.println(id);
-//        PersonDTO deleted = facade.deletePerson(id);
-//        return Response.ok().entity(GSON.toJson(deleted)).build();
-//    }
-//
-//    @POST
-//    @Produces({MediaType.APPLICATION_JSON})
-//    @Consumes({MediaType.APPLICATION_JSON})
-//    public Response createPerson(String content) {
-//        PersonDTO pdto = GSON.fromJson(content, PersonDTO.class);
-//        PersonDTO newPdto = facade.createPerson(pdto);
-//        return Response.ok().entity(GSON.toJson(newPdto)).build();
-//    }
-//
-//    @PUT
-//    @Produces({MediaType.APPLICATION_JSON})
-//    @Consumes({MediaType.APPLICATION_JSON})
-//    @Path("{id}")
-//    public Response updatePerson(@PathParam("id") int id, String personInput) throws EntityNotFoundException {
-//        PersonDTO personDTO = GSON.fromJson(personInput, PersonDTO.class);
-//        personDTO.setId(id);
-//        PersonDTO returned = facade.updatePerson(personDTO);
-//        return Response.ok().entity(GSON.toJson(returned)).build();
-//    }
+    @GET
+    @Path("/phone/{phone}" )
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPersonByPhone(@PathParam("phone") int phone) throws EntityNotFoundException {
+        List<PersonDTO> personDTO = facade.getPersonByPhone(phone);
+        return Response.ok().entity(personDTO).build();
+    }
+
+    @GET
+    @Path("/hobby/{hobbyname}" )
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPersonByHobby(@PathParam("hobbyname") String hobby) throws EntityNotFoundException {
+        List<PersonDTO> personDTO = facade.getAllPersonsByHobby(hobby);
+        return Response.ok().entity(personDTO).build();
+    }
+    @GET
+    @Path("/cityzip/{zip}" )
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPersonsByCityZip(@PathParam("zip") int zip) throws EntityNotFoundException {
+        List<PersonDTO> personDTO = facade.getPersonsByCityZip(zip);
+        return Response.ok().entity(personDTO).build();
+    }
+
+    @DELETE
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("{id}")
+    public Response deletePerson(@PathParam("id") int id) throws EntityNotFoundException {
+        System.out.println(id);
+        PersonDTO deleted = facade.deletePerson(id);
+        return Response.ok().entity(GSON.toJson(deleted)).build();
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response createPerson(String content) {
+        Person pdto = GSON.fromJson(content, Person.class);
+        Person newPdto = facade.createPerson(pdto);
+        return Response.ok().entity(GSON.toJson(newPdto)).build();
+    }
+
+    @PUT
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path("{id}")
+    public Response updatePerson(@PathParam("id") int id, String personInput) throws EntityNotFoundException {
+        PersonDTO personDTO = GSON.fromJson(personInput, PersonDTO.class);
+        personDTO.setId(id);
+        PersonDTO returned = facade.updatePerson(personDTO);
+        return Response.ok().entity(GSON.toJson(returned)).build();
+    }
 
 }
