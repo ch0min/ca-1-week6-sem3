@@ -35,7 +35,9 @@ public class PersonDTO implements Serializable {
         this.firstName = p.getFirstName();
         this.lastName = p.getLastName();
 
-        this.address = new AddressInnerDTO(p.getAddress());
+        if(p.getAddress() != null) {
+            this.address = new AddressInnerDTO(p.getAddress());
+        }
 
         p.getPhones().forEach( phone -> {
             phones.add(new PhoneInnerDTO(phone));
