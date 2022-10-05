@@ -36,9 +36,9 @@ POST http://localhost:8080/ca/api/person/
 Content-Type: application/json
 
 {
-  "email": "mark@email.dk",
-  "firstName": "Mark",
-  "lastName": "Chomin",
+  "email": "Fido@email.dk",
+  "firstName": "Fido",
+  "lastName": "Lele",
   "address": {
     "zip": 2770,
     "street": "Zinni 10"
