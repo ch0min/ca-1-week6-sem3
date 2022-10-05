@@ -7,6 +7,7 @@ package facades;
 
 import javax.persistence.EntityManagerFactory;
 
+import dtos.PersonDTO;
 import entities.Address;
 import entities.Hobby;
 import entities.Person;

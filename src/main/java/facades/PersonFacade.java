@@ -47,54 +47,59 @@ public class PersonFacade {
         }
     }
 
-    public List<Person> getPersonByPhone(int phone) throws EntityNotFoundException {
+    public List<PersonDTO> getPersonByPhone(int phone) throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
 
         try {
-            TypedQuery<Person> query = em.createQuery("SELECT ph FROM Phone ph JOIN ph.person p " +
-                    "JOIN p.hobbies h JOIN p.phones phph WHERE phph.phoneNumber = :phone", Person.class);
+            TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p JOIN p.phones ph WHERE ph.phoneNumber = :phone",Person.class);
+//                    "SELECT ph FROM Phone ph JOIN ph.person p " +
+//                    "JOIN p.hobbies h JOIN p.phones phph WHERE phph.phoneNumber = :phone", Person.class);
             query.setParameter("phone", phone);
-            return query.getResultList();
+            List<Person> persons = query.getResultList();
+            return PersonDTO.getDTOs(persons);
         } finally {
             em.close();
         }
     }
 
 
-    public List<Person> getAllPersonsByHobby(String hobbyName) throws EntityNotFoundException {
+    public List<PersonDTO> getAllPersonsByHobby(String hobbyName) throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p " +
                     "JOIN p.hobbies h WHERE h.name = :name", Person.class);
             query.setParameter("name", hobbyName);
-            return query.getResultList();
+            List<Person> persons = query.getResultList();
+            return PersonDTO.getDTOs(persons);
         } finally {
             em.close();
         }
     }
 
 
-    public List<Person> getPersonByHobby(String hobbyName) throws EntityNotFoundException {
+    public List<PersonDTO> getPersonByHobby(String hobbyName) throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Person> query = em.createQuery("SELECT COUNT(p) FROM Person p " +
                     "JOIN p.hobbies h WHERE h.name = :name", Person.class);
             query.setParameter("name", hobbyName);
-            return query.getResultList();
+            List<Person> persons = query.getResultList();
+            return PersonDTO.getDTOs(persons);
         } finally {
             em.close();
         }
     }
 
 
-    public List<Person> getPersonsByCityZip(int zip) throws EntityNotFoundException {
+    public List<PersonDTO> getPersonsByCityZip(int zip) throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
 
         try {
             TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p JOIN p.address a " +
                     "WHERE a.zip = :zip", Person.class);
             query.setParameter("zip", zip);
-            return query.getResultList();
+            List<Person> persons = query.getResultList();
+            return PersonDTO.getDTOs(persons);
         } finally {
             em.close();
         }
@@ -107,31 +112,43 @@ public class PersonFacade {
             em.getTransaction().begin();
             em.persist(personEntity);
             em.getTransaction().commit();
+            return personEntity;
         } finally {
             em.close();
         }
-        return personEntity;
+    }
+    public PersonDTO createPersonDTO(PersonDTO p) throws EntityNotFoundException {
+        Person personEntity = new Person(p.getEmail(), p.getFirstName(), p.getLastName(), p.getAddress().getEntity());
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(personEntity);
+            em.getTransaction().commit();
+            return new PersonDTO(personEntity);
+        } finally {
+            em.close();
+        }
     }
 
 
-    public Person updatePerson(Person person) throws EntityNotFoundException {
+    public PersonDTO updatePerson(PersonDTO person) throws EntityNotFoundException {
         EntityManager em = getEntityManager();
         if (person.getId() == 0)
             throw new javax.persistence.EntityNotFoundException("No such Person with id: " + person.getId());
         em.getTransaction().begin();
-        Person p = em.merge(person);
+        Person p = em.merge(person.getEntity());
         em.getTransaction().commit();
-        return p;
+        return new PersonDTO(p);
     }
 
-    public Person deletePerson(int id) throws EntityNotFoundException {
+    public PersonDTO deletePerson(int id) throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
         Person person = em.find(Person.class, id);
         try {
             em.getTransaction().begin();
             em.remove(person);
             em.getTransaction().commit();
-            return person;
+            return new PersonDTO(person);
         } finally {
             em.close();
         }
@@ -139,17 +156,17 @@ public class PersonFacade {
 
 
     /* *** ADDRESS ***/
-    public Address createAddress(Address a) throws EntityNotFoundException {
+    public PersonDTO.AddressInnerDTO createAddress(PersonDTO.AddressInnerDTO a) throws EntityNotFoundException {
         Address addressEntity = new Address(a.getStreet(), a.getZip());
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(addressEntity);
             em.getTransaction().commit();
+            return new PersonDTO.AddressInnerDTO(addressEntity);
         } finally {
             em.close();
         }
-        return addressEntity;
     }
 
     /* *** PHONE ***/
@@ -160,14 +177,26 @@ public class PersonFacade {
             em.getTransaction().begin();
             em.persist(phoneEntity);
             em.getTransaction().commit();
+            return phoneEntity;
         } finally {
             em.close();
         }
-        return phoneEntity;
+    }
+    public PersonDTO.PhoneInnerDTO createPhoneDTO(PersonDTO.PhoneInnerDTO ph) throws EntityNotFoundException {
+        Phone phoneEntity = new Phone(ph.getPhoneNumber(), ph.getDescription(), ph.getEntity().getPerson());
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(phoneEntity);
+            em.getTransaction().commit();
+            return new PersonDTO.PhoneInnerDTO(phoneEntity);
+        } finally {
+            em.close();
+        }
     }
 
     /* *** Hobbies ***/
-    public Person assignHobbyToPerson(int personId, int hobbyId) {
+    public PersonDTO assignHobbyToPerson(int personId, int hobbyId) {
         EntityManager em = emf.createEntityManager();
         Person person = em.find(Person.class, personId);
         Hobby hobby = em.find(Hobby.class, hobbyId);
@@ -175,7 +204,7 @@ public class PersonFacade {
         person.assignHobby(hobby);
         em.getTransaction().commit();
         em.close();
-        return person;
+        return new PersonDTO(person);
     }
 
     public Hobby createHobby(Hobby h) throws EntityNotFoundException {
@@ -189,6 +218,18 @@ public class PersonFacade {
             em.close();
         }
         return hobbyEntity;
+    }
+    public PersonDTO.HobbyInnerDTO createHobbyDTO(PersonDTO.HobbyInnerDTO h) throws EntityNotFoundException {
+        Hobby hobbyEntity = new Hobby(h.getCategory(), h.getName(), h.getType(), h.getWikiLink());
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(hobbyEntity);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new PersonDTO.HobbyInnerDTO(hobbyEntity);
     }
 
 
@@ -208,7 +249,7 @@ public class PersonFacade {
 //        System.out.println(pf.getNumberOfPeopleWithGivenHobby("3D-udskrivning"));
 //        System.out.println(pf.getAllPersonsByHobby("3D-udskrivning"));
 
-        List<Person> pl = pf.getPersonByPhone(12341234);
+        List<PersonDTO> pl = pf.getPersonByPhone(12341234);
 
         System.out.println(pl.get(0).getHobbies());
 //        System.out.println(pf.getPeopleInCity(2800));

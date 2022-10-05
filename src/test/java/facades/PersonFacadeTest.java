@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.PersonDTO;
 import entities.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,8 +89,9 @@ public class PersonFacadeTest {
         Address a3 = new Address("Lololol 10", 900);
         p3 = new Person("Fido@dog.com", "Fido", "Lele", a3);
         p3.setId(3);
-        Person expected = p3;
-        Person actual = facade.createPerson(p3);
+        PersonDTO pdto3 = new PersonDTO(p3);
+        PersonDTO expected = pdto3;
+        PersonDTO actual = facade.createPersonDTO(pdto3);
         assertEquals(expected, actual);
     }
 
@@ -107,7 +109,7 @@ public class PersonFacadeTest {
         System.out.println("Testing Update(Person p1)");
         p1.setEmail("Test@Test.dk");
         String expected = p1.getEmail();
-        String actual = facade.updatePerson(p1).getEmail();
+        String actual = facade.updatePerson(new PersonDTO(p1)).getEmail();
         assertEquals(expected, actual);
     }
 
@@ -115,18 +117,19 @@ public class PersonFacadeTest {
     @Test
     void deletePersonTest() {
         System.out.println("Testing delete(id)");
-        Person person = facade.deletePerson(p2.getId());
+        PersonDTO person = facade.deletePerson(p2.getId());
         int expected = 1;
         int actual = facade.getAllPersons().size();
         assertEquals(expected, actual);
-        assertEquals(person, p2);
+        assertEquals(person, new PersonDTO(p2));
     }
 
     @Test
     void getPersonByPhoneTest() {
         System.out.println("Testing getPersonByPhone(phone)");
-        int expected = 2;
-        List<Person> actual = facade.getPersonByPhone(ph1.getPhoneNumber());
+        int expected = 1;
+        System.out.println(ph1.getPhoneNumber());
+        List<PersonDTO> actual = facade.getPersonByPhone(ph1.getPhoneNumber());
         assertEquals(expected, actual.size());
     }
 
@@ -135,7 +138,7 @@ public class PersonFacadeTest {
     void getAllPersonsByHobbyTest() {
         System.out.println("Testing getNumberOfPeopleWithGivenHobby(string)");
         int expected = p1.getHobbies().toArray().length;
-        List<Person> actual = facade.getAllPersonsByHobby("3D-udskrivning");
+        List<PersonDTO> actual = facade.getAllPersonsByHobby("3D-udskrivning");
         assertEquals(expected, actual.size());
     }
 
@@ -144,7 +147,7 @@ public class PersonFacadeTest {
     void getPersonsByCityZipTest() {
         System.out.println("Testing getPersonsByCityZipTest(zip)");
         int expected = 1;
-        List<Person> actual = facade.getPersonsByCityZip(p1.getAddress().getZip());
+        List<PersonDTO> actual = facade.getPersonsByCityZip(p1.getAddress().getZip());
         assertEquals(expected, actual.size());
     }
 }
