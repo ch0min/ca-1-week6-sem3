@@ -158,6 +158,7 @@ public class PersonFacade {
         if (person.getId() == 0)
             throw new javax.persistence.EntityNotFoundException("No such Person with id: " + person.getId());
         em.getTransaction().begin();
+        em.find(Person.class, person.getId());
         Person p = em.merge(person.getEntity());
         em.getTransaction().commit();
         return new PersonDTO(p);
