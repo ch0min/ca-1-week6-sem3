@@ -4,7 +4,7 @@ Accept: application/json
 
 
 ###
-POST http://localhost:8080/ca1/api/person/
+PUT http://localhost:8080/ca1/api/person/19
 Content-Type: application/json
 
 {
