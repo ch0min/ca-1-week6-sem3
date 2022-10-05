@@ -18,11 +18,16 @@ Content-Type: application/json
     "zip": 2800,
     "street": "Test 10"
   },
+"phones": [
+    {
+      "phoneNumber": "11112222",
+      "description": "HOME"
+    }
+  ],
   "hobbies": [
     {
-      "id": 3,
-      "name": "Skuespil",
-      "wikiLink": "https://en.wikipedia.org/wiki/Acting",
+      "name": "Gaming",
+      "wikiLink": "https://en.wikipedia.org/wiki/Gaming",
       "category": "Generel",
       "type": "Indendørs"
     }

@@ -140,7 +140,7 @@ public class PersonFacade {
 //    }
 
     public PersonDTO createPersonDTO(PersonDTO p) throws EntityNotFoundException {
-        Person personEntity = new Person(p.getEmail(), p.getFirstName(), p.getLastName(), p.getAddress().getEntity(), p.getEntity().getPhones(), p.getEntity().getHobbies());
+        Person personEntity = new Person(p.getEmail(), p.getFirstName(), p.getLastName(), p.getAddress().getEntity(), p.getEntity().getPhones());
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
