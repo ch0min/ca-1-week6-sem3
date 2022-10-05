@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:8080/ca1/api/person/1
+POST http://localhost:8080/ca1/api/person/
 Content-Type: application/json
 
 {

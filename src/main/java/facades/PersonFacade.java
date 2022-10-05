@@ -121,7 +121,7 @@ public class PersonFacade {
         EntityManager em = getEntityManager();
         person.setId(1);
         em.getTransaction().begin();
-        em.find(Person.class, 1);
+//        em.find(Person.class, 1);
         Person p = em.merge(person.getEntity());
         em.getTransaction().commit();
         return new PersonDTO(p);
