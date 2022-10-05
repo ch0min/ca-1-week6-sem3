@@ -1,66 +1,51 @@
 ### Get All Persons
-GET http://localhost:8080/ca/api/person/
+GET http://localhost:8080/ca1/api/person/
 Accept: application/json
 
 
 ###
-PUT http://localhost:8080/ca/api/person/10
+PUT http://localhost:8080/ca1/api/person/19
 Content-Type: application/json
 
 {
   "email": "mark@email.dk",
-  "firstName": "Mark",
-  "lastName": "Chomin",
+  "firstName": "Hans",
+  "lastName": "Karl",
   "address": {
-    "zip": 2770,
-    "street": "Zinni 10"
+    "zip": 2800,
+    "street": "Nørgaardsvej 30"}
+}
+
+###
+POST http://localhost:8080/ca1/api/person/
+Content-Type: application/json
+
+{
+  "email": "steen@email.dk",
+  "firstName": "STEEN",
+  "lastName": "Hans",
+  "address": {
+    "zip": 2600,
+    "street": "Tisvej 4"
   },
   "phones": [
     {
-      "phoneNumber": 29292929,
-      "description": "HOME"
+      "phoneNumber": 12345678,
+      "description": "WORK"
     }
   ],
   "hobbies": [
     {
-      "name": "CS",
-      "wikiLink": "https://en.wikipedia.org/wiki/CSGO",
-      "category": "Generel",
-      "type": "Indendørs"
+      "name": "Generel",
+      "wikiLink": "Håndværker",
+      "category": "Indendørs",
+      "type": "https://en.wikipedia.org/wiki/Acting"
     }
   ]
 }
 
 ###
-POST http://localhost:8080/ca/api/person/
-Content-Type: application/json
-
-{
-  "email": "mark@email.dk",
-  "firstName": "Mark",
-  "lastName": "Chomin",
-  "address": {
-    "zip": 2770,
-    "street": "Zinni 10"
-  },
-  "phones": [
-    {
-      "phoneNumber": 29292929,
-      "description": "HOME"
-    }
-  ],
-  "hobbies": [
-    {
-      "name": "Gaming",
-      "wikiLink": "https://en.wikipedia.org/wiki/Gaming",
-      "category": "Generel",
-      "type": "Indendørs"
-    }
-  ]
-}
-
-###
-DELETE http://localhost:8080/ca/api/person/10
+DELETE http://localhost:8080/ca1/api/person/19
 Content-Type: application/json
 
 

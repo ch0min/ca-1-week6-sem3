@@ -122,7 +122,8 @@ public class PersonResourceTest {
         given().when().get("/person").then().statusCode(200);
     }
 }
-//
+
+
 //    @Test
 //    void getPersonByPhone() {
 //        PersonDTO personDTO = given().contentType("application/json").when()
@@ -130,7 +131,8 @@ public class PersonResourceTest {
 //
 //        assertThat(personDTO, equalTo(p1));
 //    }
-//
+//}
+
 //    @Test
 //    void getAllPersonsByHobby(){
 //        List<PersonDTO> personDTOList =
