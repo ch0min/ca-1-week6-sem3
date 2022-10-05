@@ -12,7 +12,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Set;
 
 public class PersonFacade {
 
@@ -118,50 +117,27 @@ public class PersonFacade {
             em.close();
         }
     }
-
-//    public PersonDTO create(PersonDTO p) throws EntityNotFoundException {
-//        Person personEntity = p.getEntity();
-//        EntityManager em = getEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            p.getHobbies().forEach(hobby -> {
-//                if (hobby.getId() != 0)
-//                    hobby = em.find(PersonDTO.HobbyInnerDTO.class, hobby.getId());
-//                else {
-//                    em.persist(hobby);
-//                }
-//            });
-//            em.persist(personEntity);
-//            em.getTransaction().commit();
-//            return new PersonDTO(personEntity);
-//        } finally {
-//            em.close();
-//        }
-//    }
-
-    public PersonDTO createPersonDTO(PersonDTO p) throws EntityNotFoundException {
-        Person personEntity = new Person(p.getEmail(), p.getFirstName(), p.getLastName(), p.getAddress().getEntity(), p.getEntity().getPhones());
+    public PersonDTO createPersonDTO(PersonDTO person) throws EntityNotFoundException {
         EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(personEntity);
-            em.getTransaction().commit();
-            return new PersonDTO(personEntity);
-        } finally {
-            em.close();
-        }
-    }
-
-
-    public PersonDTO updatePerson(PersonDTO person) throws EntityNotFoundException {
-        EntityManager em = getEntityManager();
-        if (person.getId() == 0)
-            throw new javax.persistence.EntityNotFoundException("No such Person with id: " + person.getId());
+        person.setId(1);
         em.getTransaction().begin();
-        em.find(Person.class, person.getId());
+//        em.find(Person.class, 1);
         Person p = em.merge(person.getEntity());
         em.getTransaction().commit();
         return new PersonDTO(p);
+    }
+
+
+    public PersonDTO updatePerson(PersonDTO personDTO) throws EntityNotFoundException {
+        Person person = new Person(personDTO.getId(), personDTO.getEmail(),personDTO.getFirstName(),personDTO.getLastName(), personDTO.getAddress().getEntity());
+        EntityManager em = getEntityManager();
+        Person pfromdb = em.find(Person.class, personDTO.getId());
+        if (person.getId() == 0)
+            throw new javax.persistence.EntityNotFoundException("No such Person with id: " + person.getId());
+        em.getTransaction().begin();
+        em.merge(person);
+        em.getTransaction().commit();
+        return new PersonDTO(person);
     }
 
     public PersonDTO deletePerson(int id) throws EntityNotFoundException {
@@ -231,7 +207,7 @@ public class PersonFacade {
     }
 
     public Hobby createHobby(Hobby h) throws EntityNotFoundException {
-        Hobby hobbyEntity = new Hobby(h.getName(), h.getWikiLink(), h.getCategory(), h.getType());
+        Hobby hobbyEntity = new Hobby(h.getCategory(), h.getName(), h.getType(), h.getWikiLink());
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
