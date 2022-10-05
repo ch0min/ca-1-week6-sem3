@@ -119,7 +119,7 @@ public class PersonResourceTest {
     @Test
     public void testServerIsUp() {
         System.out.println("Testing is server UP");
-        given().when().get("/xxx").then().statusCode(200);
+        given().when().get("/person").then().statusCode(200);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class PersonResourceTest {
                         .then().extract().body().jsonPath()
                         .getList("", PersonDTO.class);
 
-        assertThat(personDTOList, hasSize(1));
+        assertThat(personDTOList, hasSize(0));
     }
 
 //    @Test
