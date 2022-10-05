@@ -23,10 +23,10 @@ public class Populator {
         Person p1, p2, p3, p4;
         Phone ph1, ph2, ph3, ph4;
 
-        a1 = pf.createAddress(new Address("Nørgaardsvej 30", 2800));
-        a2 = pf.createAddress(new Address("Zinnia 10", 2770));
-        a3 = pf.createAddress(new Address("Østergade 7", 2300));
-        a4 = pf.createAddress(new Address("Linde 10", 2600));
+        a1 = new Address("Nørgaardsvej 30", 2800);
+        a2 = new Address("Zinnia 10", 2770);
+        a3 = new Address("Østergade 7", 2300);
+        a4 = new Address("Linde 10", 2600);
 
         h1 = pf.createHobby(new Hobby("3D-udskrivning", "https://en.wikipedia.org/wiki/3D_printing", "Generel", "Indendørs"));
         h2 = pf.createHobby(new Hobby("Akrobatik", "https://en.wikipedia.org/wiki/Acrobatics", "Generel", "Indendørs"));
@@ -43,6 +43,7 @@ public class Populator {
         ph4 = pf.createPhone(new Phone(98765432, "WORK", p4));
 
         pf.assignHobbyToPerson(p1.getId(), h1.getId());
+        pf.assignHobbyToPerson(p1.getId(), h2.getId());
         pf.assignHobbyToPerson(p2.getId(), h1.getId());
         pf.assignHobbyToPerson(p3.getId(), h2.getId());
         pf.assignHobbyToPerson(p4.getId(), h3.getId());
