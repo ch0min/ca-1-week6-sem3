@@ -31,7 +31,7 @@ public class Person {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
     private Set<Phone> phones = new LinkedHashSet<>();
 
     @ManyToMany

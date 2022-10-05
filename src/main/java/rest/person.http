@@ -1,51 +1,66 @@
 ### Get All Persons
-GET http://localhost:8080/ca1/api/person/
+GET http://localhost:8080/ca/api/person/
 Accept: application/json
 
 
 ###
-PUT http://localhost:8080/ca1/api/person/19
+PUT http://localhost:8080/ca/api/person/10
 Content-Type: application/json
 
 {
   "email": "mark@email.dk",
-  "firstName": "Hans",
-  "lastName": "Karl",
+  "firstName": "Mark",
+  "lastName": "Chomin",
   "address": {
-    "zip": 2800,
-    "street": "Nørgaardsvej 30"}
-}
-
-###
-POST http://localhost:8080/ca1/api/person/
-Content-Type: application/json
-
-{
-  "email": "steen@email.dk",
-  "firstName": "STEEN",
-  "lastName": "Hans",
-  "address": {
-    "zip": 2600,
-    "street": "Tisvej 4"
+    "zip": 2770,
+    "street": "Zinni 10"
   },
   "phones": [
     {
-      "phoneNumber": 12345678,
-      "description": "WORK"
+      "phoneNumber": 29292929,
+      "description": "HOME"
     }
   ],
   "hobbies": [
     {
-      "name": "Generel",
-      "wikiLink": "Håndværker",
-      "category": "Indendørs",
-      "type": "https://en.wikipedia.org/wiki/Acting"
+      "name": "CS",
+      "wikiLink": "https://en.wikipedia.org/wiki/CSGO",
+      "category": "Generel",
+      "type": "Indendørs"
     }
   ]
 }
 
 ###
-DELETE http://localhost:8080/ca1/api/person/9
+POST http://localhost:8080/ca/api/person/
+Content-Type: application/json
+
+{
+  "email": "mark@email.dk",
+  "firstName": "Mark",
+  "lastName": "Chomin",
+  "address": {
+    "zip": 2770,
+    "street": "Zinni 10"
+  },
+  "phones": [
+    {
+      "phoneNumber": 29292929,
+      "description": "HOME"
+    }
+  ],
+  "hobbies": [
+    {
+      "name": "Gaming",
+      "wikiLink": "https://en.wikipedia.org/wiki/Gaming",
+      "category": "Generel",
+      "type": "Indendørs"
+    }
+  ]
+}
+
+###
+DELETE http://localhost:8080/ca/api/person/10
 Content-Type: application/json
 
 
