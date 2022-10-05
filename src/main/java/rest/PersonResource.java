@@ -23,7 +23,7 @@ public class PersonResource {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAll() {
+    public Response getAllPersons() {
 
         return Response.ok().entity(GSON.toJson(facade.getAllPersons())).build();
     }

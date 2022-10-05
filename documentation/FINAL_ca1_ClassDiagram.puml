@@ -1,6 +1,8 @@
 @startuml
 'https://plantuml.com/class-diagram
 
+package "java" {
+
 package "dtos" {
 PersonDTO - HobbyDTO
 
@@ -152,7 +154,7 @@ class PersonResourceTest {
 facades --[hidden]> rest
 entities ---[hidden]> dtos
 
-
+}
 
 
 

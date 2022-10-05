@@ -3,6 +3,7 @@ package facades;
 import entities.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
 
@@ -12,6 +13,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+//@Disabled
 public class PersonFacadeTest {
     private static EntityManagerFactory emf;
     private static PersonFacade facade;
@@ -20,6 +22,7 @@ public class PersonFacadeTest {
     private List<Phone> phones = new ArrayList<>();
     Phone ph1, ph2;
     Hobby h1, h2, h3, h4, h5, h6;
+
     public PersonFacadeTest() {
     }
 
@@ -144,11 +147,4 @@ public class PersonFacadeTest {
         List<Person> actual = facade.getPersonsByCityZip(p1.getAddress().getZip());
         assertEquals(expected, actual.size());
     }
-
-
-
-
-
-
-
 }

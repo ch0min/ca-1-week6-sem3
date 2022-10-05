@@ -1,0 +1,202 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package "java" {
+
+package "dtos" {
+
+PersonDTO -- AddressInnerDTO
+PersonDTO -- PhoneInnerDTO
+PersonDTO -- HobbyInnerDTO
+
+class PersonDTO {
+-    Integer id;
+-    String email;
+-    String firstName;
+-    String lastName;
+-    AddressInnerDTO address;
+
+-    List<PhoneInnerDTO> phones;
+-    List<HobbyInnerDTO> hobbies;
+
++   getEntity()
++   static List<PersonDTO> getDTOs(List<Person> persons)
+
+}
+
+class AddressInnerDTO {
+-         Integer id;
+-         Integer zip;
+-         String street;
+}
+
+class PhoneInnerDTO {
+-         Integer phoneNumber;
+-         String description;
+}
+
+class HobbyInnerDTO {
+-         Integer id;
+-         String name;
+-         String wikiLink;
+-         String category;
+-         String type;
+}
+
+}
+
+
+package "facades" {
+
+class PersonFacade {
+- static PersonFacade instance;
+- static EntityManagerFactory emf;
+
++static PersonFacade getPersonFacade(EntityManagerFactory _emf)
+-EntityManager getEntityManager()
++List<PersonDTO> getAllPersons()
++List<Person> getPersonByPhone(int phone)
++List<Person> getAllPersonsByHobby(String hobbyName)
++List<Person> getPersonByHobby(String hobbyName)
++List<Person> getPersonsByCityZip(int zip)
++Person createPerson(Person p)
++Person updatePerson(Person person)
++Person deletePerson(int id)
+
++Address createAddress(Address a)
+
++Phone createPhone(Phone ph)
+
++Person assignHobbyToPerson(int personId, int hobbyId)
++Hobby createHobby(Hobby h)
+
+}
+}
+
+
+package "rest" {
+
+class PersonResource() {
+- static final EntityManagerFactory EMF;
+- static final PersonFacade facade;
+- static final Gson GSON;
+
++Response getAllPersons()
++Response getPersonByPhone(@PathParam("phone") int phone)
++Response getPersonByHobby(@PathParam("hobbyname") String hobby)
++Response getPersonsByCityZip(@PathParam("zip") int zip)
++Response deletePerson(@PathParam("id") int id)
++Response createPerson(String content)
++Response updatePerson(@PathParam("id") int id, String personInput)
+
+}
+
+}
+
+package "entities" {
+Hobby -- Person
+Person -- Phone
+Person -- Address
+Address -- CityInfo
+
+class Hobby {
+-name
+-description
+
+}
+
+class Person {
+-Integer id;
+-String email;
+-String firstName;
+-String lastName;
+-Address address;
+-Set<Phone> phones;
+-Set<Hobby> hobbies;
+}
+
+class Phone {
+-Integer phoneNumber;
+-String description;
+-Person person
+}
+
+class Address {
+-Integer id;
+-Integer zip;
+-String street;
+-Set<Person> people;
+
+}
+
+class CityInfo {
+-Integer id;
+-String city;
+-private Set<Address> addresses;
+
+}
+
+}
+
+package "test" {
+
+package "facadesTest" {
+class PersonFacadeTest {
+- static EntityManagerFactory emf;
+- static PersonFacade facade;
+- p1, p2, p3;
+- a1, a2;
+- List<Phone> phones;
+- Phone ph1, ph2;
+- Hobby h1, h2, h3, h4, h5, h6;
+
+void createPersonTest()
+void getAllPersonsTest()
+void updatePersonTest()
+void deletePersonTest()
+void getPersonByPhoneTest()
+void getAllPersonsByHobbyTest()
+void getPersonsByCityZipTest()
+
+}
+
+}
+
+package "restTest" {
+
+class PersonResourceTest {
+- static final int SERVER_PORT = 7777;
+- static final String SERVER_URL = "http://localhost/api";
+- static Person p1;
+- static PersonDTO p2;
+- static PersonDTO pdto;
+- static Phone ph1, ph2;
+- static Hobby h1,h2;
+
+- static final Gson GSON;
+
+- static final URI BASE_URI;
+- static HttpServer httpServer;
+- static EntityManagerFactory emf;
+
++void testServerIsUp()
+void getPersonByPhone()
+void getAllPersonsByHobby()
+void getAmountWithHobby()
+void getPersonsByCityZip()
+void createPerson()
+void deletePerson()
+}
+
+}
+}
+
+facades --[hidden]> rest
+entities ---[hidden]> dtos
+
+
+}
+
+
+
+@enduml
