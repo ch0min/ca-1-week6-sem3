@@ -131,15 +131,16 @@ public class PersonFacade {
     }
 
 
-    public PersonDTO updatePerson(PersonDTO person) throws EntityNotFoundException {
+    public PersonDTO updatePerson(PersonDTO personDTO) throws EntityNotFoundException {
+        Person person = new Person(personDTO.getId(), personDTO.getEmail(),personDTO.getFirstName(),personDTO.getLastName(), personDTO.getAddress().getEntity());
         EntityManager em = getEntityManager();
+        Person pfromdb = em.find(Person.class, personDTO.getId());
         if (person.getId() == 0)
             throw new javax.persistence.EntityNotFoundException("No such Person with id: " + person.getId());
         em.getTransaction().begin();
-        em.find(Person.class, person.getId());
-        Person p = em.merge(person.getEntity());
+        em.merge(person);
         em.getTransaction().commit();
-        return new PersonDTO(p);
+        return new PersonDTO(person);
     }
 
     public PersonDTO deletePerson(int id) throws EntityNotFoundException {

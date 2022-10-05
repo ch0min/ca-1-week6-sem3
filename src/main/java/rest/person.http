@@ -1,3 +1,20 @@
 ### Get All Persons
 GET http://localhost:8080/ca1/api/person/
 Accept: application/json
+
+
+###
+PUT http://localhost:8080/ca1_war_exploded/api/person/1
+Content-Type: application/json
+
+{
+    "email": "2mark@email.dk",
+    "firstName": "NOTMark",
+    "lastName": "Chomin",
+    "address": {
+      "zip": 2800,
+      "street": "Nørgaardsvej 30"
+    },
+    "phones": [],
+    "hobbies": []
+  }
