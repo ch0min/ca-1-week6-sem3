@@ -117,17 +117,14 @@ public class PersonFacade {
             em.close();
         }
     }
-    public PersonDTO createPersonDTO(PersonDTO p) throws EntityNotFoundException {
-        Person personEntity = new Person(p.getEmail(), p.getFirstName(), p.getLastName(), p.getAddress().getEntity());
+    public PersonDTO createPersonDTO(PersonDTO person) throws EntityNotFoundException {
         EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(personEntity);
-            em.getTransaction().commit();
-            return new PersonDTO(personEntity);
-        } finally {
-            em.close();
-        }
+        person.setId(1);
+        em.getTransaction().begin();
+        em.find(Person.class, 1);
+        Person p = em.merge(person.getEntity());
+        em.getTransaction().commit();
+        return new PersonDTO(p);
     }
 
 

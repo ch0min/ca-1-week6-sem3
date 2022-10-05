@@ -21,7 +21,7 @@ PUT http://localhost:8080/ca1/api/person/1
 Content-Type: application/json
 
 {
-  "email": "oskar@email.dk",
+  "email": "steen@email.dk",
   "firstName": "STEEN",
   "lastName": "Hans",
   "address": {
@@ -30,14 +30,14 @@ Content-Type: application/json
   },
   "phones": [
     {
-      "phoneNumber": 40573503,
+      "phoneNumber": 12345678,
       "description": "WORK"
     }
   ],
   "hobbies": [
     {
       "name": "Generel",
-      "wikiLink": "Skuespil",
+      "wikiLink": "Håndværker",
       "category": "Indendørs",
       "type": "https://en.wikipedia.org/wiki/Acting"
     }
