@@ -79,6 +79,12 @@ public class Person {
         this.lastName = lastName;
     }
 
+    public void assignHobby(Hobby hobby) {
+        if (hobby != null) {
+            hobby.getPersonSet().add(this);
+        }
+    }
+
     public Integer getId() {
         return id;
     }

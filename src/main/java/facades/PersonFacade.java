@@ -2,7 +2,9 @@ package facades;
 
 import dtos.PersonDTO;
 import entities.Address;
+import entities.Hobby;
 import entities.Person;
+import entities.Phone;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
@@ -148,6 +150,45 @@ public class PersonFacade {
             em.close();
         }
         return addressEntity;
+    }
+
+    /* *** PHONE ***/
+    public Phone createPhone(Phone ph) throws EntityNotFoundException {
+        Phone phoneEntity = new Phone(ph.getPhoneNumber(), ph.getDescription(), ph.getPerson());
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(phoneEntity);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return phoneEntity;
+    }
+
+    /* *** Hobbies ***/
+    public Person assignHobbyToPerson(int personId, int hobbyId) {
+        EntityManager em = emf.createEntityManager();
+        Person person = em.find(Person.class, personId);
+        Hobby hobby = em.find(Hobby.class, hobbyId);
+        em.getTransaction().begin();
+        person.assignHobby(hobby);
+        em.getTransaction().commit();
+        em.close();
+        return person;
+    }
+
+    public Hobby createHobby(Hobby h) throws EntityNotFoundException {
+        Hobby hobbyEntity = new Hobby(h.getCategory(), h.getName(), h.getType(), h.getWikiLink());
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(hobbyEntity);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return hobbyEntity;
     }
 
 
