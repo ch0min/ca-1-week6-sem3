@@ -6,8 +6,7 @@ import entities.Person;
 import entities.Phone;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PersonDTO implements Serializable {
 
@@ -54,6 +53,18 @@ public class PersonDTO implements Serializable {
             personDTOList.add(new PersonDTO(person));
         });
         return personDTOList;
+    }
+    public Person getEntity(){
+        Set<Phone> phones = new HashSet<>();
+        for (PhoneInnerDTO phoneDTO : this.phones) {
+            phones.add(phoneDTO.getEntity());
+        }
+        Set<Hobby> hobbySet = new HashSet<>();
+        for (HobbyInnerDTO hobbyDTO: this.hobbies) {
+            hobbySet.add(hobbyDTO.getEntity());
+        }
+
+        return new Person(this.email, this.firstName, this.lastName, this.address.getEntity(), phones, hobbySet);
     }
 
     public Integer getId() {
@@ -113,6 +124,19 @@ public class PersonDTO implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PersonDTO)) return false;
+        PersonDTO personDTO = (PersonDTO) o;
+        return getId().equals(personDTO.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
     public String toString() {
         return "PersonDTO{" +
                 "id=" + id +
@@ -141,6 +165,10 @@ public class PersonDTO implements Serializable {
             this.id = address.getId();
             this.zip = address.getZip();
             this.street = address.getStreet();
+        }
+
+        public Address getEntity(){
+            return new Address(this.street,this.zip);
         }
 
         public Integer getId() {
@@ -193,6 +221,10 @@ public class PersonDTO implements Serializable {
             this.description = phone.getDescription();
         }
 
+        public Phone getEntity(){
+            return new Phone(this.phoneNumber,this.description);
+        }
+
         public Integer getPhoneNumber() {
             return phoneNumber;
         }
@@ -241,6 +273,10 @@ public class PersonDTO implements Serializable {
             this.wikiLink = hobby.getWikiLink();
             this.category = hobby.getCategory();
             this.type = hobby.getType();
+        }
+
+        public Hobby getEntity(){
+            return new Hobby(this.getName(),this.getWikiLink(), this.category, this.getType());
         }
 
         public Integer getId() {
