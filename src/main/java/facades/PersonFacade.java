@@ -12,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Set;
 
 public class PersonFacade {
 
@@ -117,8 +118,29 @@ public class PersonFacade {
             em.close();
         }
     }
+
+//    public PersonDTO create(PersonDTO p) throws EntityNotFoundException {
+//        Person personEntity = p.getEntity();
+//        EntityManager em = getEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            p.getHobbies().forEach(hobby -> {
+//                if (hobby.getId() != 0)
+//                    hobby = em.find(PersonDTO.HobbyInnerDTO.class, hobby.getId());
+//                else {
+//                    em.persist(hobby);
+//                }
+//            });
+//            em.persist(personEntity);
+//            em.getTransaction().commit();
+//            return new PersonDTO(personEntity);
+//        } finally {
+//            em.close();
+//        }
+//    }
+
     public PersonDTO createPersonDTO(PersonDTO p) throws EntityNotFoundException {
-        Person personEntity = new Person(p.getEmail(), p.getFirstName(), p.getLastName(), p.getAddress().getEntity());
+        Person personEntity = new Person(p.getEmail(), p.getFirstName(), p.getLastName(), p.getAddress().getEntity(), p.getEntity().getPhones(), p.getEntity().getHobbies());
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -208,7 +230,7 @@ public class PersonFacade {
     }
 
     public Hobby createHobby(Hobby h) throws EntityNotFoundException {
-        Hobby hobbyEntity = new Hobby(h.getCategory(), h.getName(), h.getType(), h.getWikiLink());
+        Hobby hobbyEntity = new Hobby(h.getName(), h.getWikiLink(), h.getCategory(), h.getType());
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();

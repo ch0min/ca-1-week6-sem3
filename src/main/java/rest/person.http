@@ -1,3 +1,32 @@
-### Get All Persons
-GET http://localhost:8080/ca1/api/person/
+### GET ALL PERSONS
+GET http://localhost:8080/ca/api/person/
 Accept: application/json
+
+### DELETE PERSON
+DELETE http://localhost:8080/ca/api/person/1
+Content-Type: application/json
+
+### POST PERSON
+POST http://localhost:8080/ca/api/person/
+Content-Type: application/json
+
+{
+  "email": "test2@test.dk",
+  "firstName": "test",
+  "lastName": "testhans",
+  "address": {
+    "zip": 2800,
+    "street": "Test 10"
+  },
+  "hobbies": [
+    {
+      "id": 3,
+      "name": "Skuespil",
+      "wikiLink": "https://en.wikipedia.org/wiki/Acting",
+      "category": "Generel",
+      "type": "Indendørs"
+    }
+  ]
+}
+
+

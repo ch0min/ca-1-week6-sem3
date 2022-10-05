@@ -276,7 +276,7 @@ public class PersonDTO implements Serializable {
         }
 
         public Hobby getEntity(){
-            return new Hobby(this.getName(),this.getWikiLink(), this.category, this.getType());
+            return new Hobby(this.getId(), this.getName(),this.getWikiLink(), this.category, this.getType());
         }
 
         public Integer getId() {

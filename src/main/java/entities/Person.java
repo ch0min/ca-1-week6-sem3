@@ -1,8 +1,11 @@
 package entities;
 
+import dtos.PersonDTO;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -28,7 +31,7 @@ public class Person {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.REMOVE)
     private Set<Phone> phones = new LinkedHashSet<>();
 
     @ManyToMany

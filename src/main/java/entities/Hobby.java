@@ -51,6 +51,14 @@ public class Hobby {
         this.type = type;
     }
 
+    public Hobby(Integer id, String name, String wikiLink, String category, String type) {
+        this.id = id;
+        this.name = name;
+        this.wikiLink = wikiLink;
+        this.category = category;
+        this.type = type;
+    }
+
     public Integer getId() {
         return id;
     }

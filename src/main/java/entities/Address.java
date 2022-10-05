@@ -30,7 +30,7 @@ public class Address {
     @Column(name = "street")
     private String street;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "address", cascade = CascadeType.PERSIST)
     private Set<Person> people = new LinkedHashSet<>();
 
     public Address() {
