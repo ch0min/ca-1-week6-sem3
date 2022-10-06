@@ -25,8 +25,7 @@ public class ApplicationConfig extends Application {
         resources.add(errorhandling.EntityNotFoundExceptionMapper.class);
         resources.add(org.glassfish.jersey.jsonb.internal.JsonBindingProvider.class);
         resources.add(rest.PersonResource.class);
-
-
+        resources.add(cors.CorsFilter.class);
     }
     
 }
