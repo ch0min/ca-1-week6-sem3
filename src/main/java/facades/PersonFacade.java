@@ -207,7 +207,7 @@ public class PersonFacade {
     }
 
     public Hobby createHobby(Hobby h) throws EntityNotFoundException {
-        Hobby hobbyEntity = new Hobby(h.getCategory(), h.getName(), h.getType(), h.getWikiLink());
+        Hobby hobbyEntity = new Hobby(h.getName(), h.getWikiLink(), h.getCategory(), h.getType());
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -219,7 +219,7 @@ public class PersonFacade {
         return hobbyEntity;
     }
     public PersonDTO.HobbyInnerDTO createHobbyDTO(PersonDTO.HobbyInnerDTO h) throws EntityNotFoundException {
-        Hobby hobbyEntity = new Hobby(h.getCategory(), h.getName(), h.getType(), h.getWikiLink());
+        Hobby hobbyEntity = new Hobby(h.getName(), h.getWikiLink(), h.getCategory(), h.getType());
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
