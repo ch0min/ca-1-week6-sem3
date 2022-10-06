@@ -1,3 +1,5 @@
+package cors;
+
 import java.io.IOException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseFilter;
